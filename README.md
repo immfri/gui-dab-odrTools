@@ -25,7 +25,7 @@ Creating a graphical user interface (GUI) written by JavaFX that controls the co
  * mutiplex check maybe with [dablin] (https://github.com/Opendigitalradio/dablin)
  * odrTools check with a seperate window
 * If any component has an error, an alert appears about the failure. Additional will be sent an email.
-* The GUI could be checked via remote-software (e.g. Team Viewer, VNC).
+* The GUI could be controls and checked via remote-software (e.g. Team Viewer, VNC).
 
 ## 4. Settings:
 comming soon
