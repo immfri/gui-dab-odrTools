@@ -1,6 +1,6 @@
 # gui-dab-odrTools
 
-Creating a graphical user interface (GUI) written by JavaFX that controls the configuration and the monitoring of the ODR-mmbTools (https://github.com/Opendigitalradio). In the first step the implementations without client-server-system. The following tasks should be realized:
+Creating a graphical user interface (GUI) written by JavaFX that controls the configuration and the monitoring of the DAB [ODR-mmbTools] (https://github.com/Opendigitalradio). The following tasks should be realized:
 
 ## 1. Configuration:
 
@@ -33,14 +33,20 @@ Creating a graphical user interface (GUI) written by JavaFX that controls the co
 
 ## 3. Monitoring:
 
-* The operating status of the multiplex (maybe with dablin https://github.com/Opendigitalradio/dablin) and odrTools should be visible.
-
+* The operating status of the multiplex and odrTools should be visible.
+ * mutiplex check maybe with [dablin] (https://github.com/Opendigitalradio/dablin)
+ * odrTools check with a seperate window
+ 
 * If any component has an error, an alert appears about the failure. Additional will be sent an email.
 
 * The GUI could be checked via remote-software (e.g. Team Viewer, VNC).
 
+## 4. Settings:
+
+comming soon
     
     << I would be grateful for more suggestions and ideas >>
  
 Cheers 
+
 Immanuel F.
