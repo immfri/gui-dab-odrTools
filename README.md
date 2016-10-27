@@ -13,7 +13,7 @@ Creating a graphical user interface (GUI) written by JavaFX that controls the co
  * Streams: ETI/EDI/ZeroMQ
  * Files: I/Q-Samples/ETI-NI 
  * Supported Devices: Ettus USRP, GatesAir Maxiva (The configuration could be done without especially web-browser)
-* If the multiplex configuration is successful, could be started.
+* If the multiplex configuration is successfully, could be started.
 
 ## 2. Execution:
 * The software controls the complete run of all required tools (odrTools, MPlayer, JACK, ...).
