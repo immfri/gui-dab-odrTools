@@ -29,7 +29,7 @@ Creating a graphical user interface (GUI) written by JavaFX that controls the co
 coming soon
 
 ## 5. Software-Status:
-JAR-file without functionality only gui-elements -> **coming soon**
+JAR-file without functionality only gui-elements (v0.2) -> **coming soon**
     
     << I would be grateful for more suggestions and ideas >>
  
