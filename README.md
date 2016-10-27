@@ -1,6 +1,7 @@
 # gui-dab-odrTools
 
-Creating a graphical user interface (GUI) written by JavaFX that controls the configuration and the monitoring of the ODR-mmbTools. In the first step the implementations without client-server-system. The following tasks should be realized in the GUI:
+Creating a graphical user interface (GUI) written by JavaFX that controls the configuration and the monitoring of the ODR-mmbTools (https://github.com/Opendigitalradio). In the first step the implementations without client-server-system. 
+The following tasks should be realized in the GUI:
 
 1. Configuration:
 •	At the beginning created a new multiplex configuration. Alternative open a Multiplex-Configuration file.
