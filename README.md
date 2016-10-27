@@ -1,53 +1,43 @@
 # gui-dab-odrTools
 
-Creating a graphical user interface (GUI) written by JavaFX that controls the configuration and the monitoring of the ODR-mmbTools (https://github.com/Opendigitalradio). In the first step the implementations without client-server-system. 
-The following tasks should be realized in the GUI:
+Creating a graphical user interface (GUI) written by JavaFX that controls the configuration and the monitoring of the ODR-mmbTools (https://github.com/Opendigitalradio). In the first step the implementations without client-server-system. The following tasks should be realized:
 
-1. Configuration:
+## 1. Configuration:
 
-•	At the beginning created a new multiplex configuration. Alternative open a Multiplex-Configuration file.
+* At the beginning created a new multiplex configuration. Alternative open a configuration-file of Multiplex.
 
-•	The configuration starts with input section. Following are possible to select: 
-
-   o	Audio-/Playlist-File
+* The configuration starts with **Audio** section. Following are possible to select: 
+ * Audio/Playlist (File or Stream)
+ * Soundcard (with ALSA/JACK)
+ 
+* The next tab are the **PAD**. Supported data services such as DLS (incl. DL+) and MOT SLS can be used.
 	
-   o	Soundcard
-	
-•	Added are the individual services and configured there (audio data rate, protection level, labels ...). Supported data services such as DLS and MOT SLS can be used.
+* Following added Audio/Data are in **Services** and configured the **Ensemble** of DAB. 
 
-•	If the configured multiplex is ready, must be set up the output: 
+* At the end must be set up the **Output** from multiplex:
+ * Streams: ETI/EDI/ZeroMQ
+ * Files: I/Q-Samples/ETI-NI 
+ * Supported Devices: Ettus USRP, GatesAir Maxiva (The configuration could be done without especially web-browser)
 
-   o	Streams: EDI, ETI, ZeroMQ
-	
-   o	Files: I/Q-Samples, ETI 
-	
-   o	Supported Devices: Ettus USRP, GatesAir Maxiva
-	
-•	If the USRRP is selected, then in the modulator configuration, frequency and other settings they don’t be missing here.
-
-•	The multiplex in successful configuration can be started.
+* If the multiplex configuration is successful, could be started.
 
 
-2. Execution:
+## 2. Execution:
 
-•	The GUI software controls the complete run of the tools.
+* The software controls the complete run of all required tools (odrTools, MPlayer, JACK, ...).
 
-•	If the execution isn’t possible, the user would be always informed. There can continue without missing optionally tools or stop the transmission.
+* If the execution isn’t possible, the user would be always informed. There can continue without missing optionally tools or stop the transmission.
 
-•	A un-/installation of the OS software components aren’t possible, only for uses.
+* A un-/installation of the all tools aren’t possible, only for uses.
 
 
-3. Monitoring:
+## 3. Monitoring:
 
-•	The operating status of the multiplex or the mmbTools should always be visible.
+* The operating status of the multiplex (maybe with dablin https://github.com/Opendigitalradio/dablin) and odrTools should be visible.
 
-•	If the component has an error, an alert appears about the failure. Additional will be sent an email.
+* If any component has an error, an alert appears about the failure. Additional will be sent an email.
 
-•	Audio programs visualize the gain level and listen there selected streams.
-
-•	Optional the configuration of GatesAir VHF-Transmitter could be done with the GUI, without especially browser.
-
-•	The complete monitoring could be checked via remote-software (e.g. Team Viewer).
+* The GUI could be checked via remote-software (e.g. Team Viewer, VNC).
 
     
     << I would be grateful for more suggestions and ideas >>
