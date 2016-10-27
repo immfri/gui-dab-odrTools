@@ -21,14 +21,15 @@ Creating a graphical user interface (GUI) written by JavaFX that controls the co
 * A un-/installation of the all tools aren’t possible, only for uses.
 
 ## 3. Monitoring:
-* The operating status of the multiplex and odrTools should be visible.
- * mutiplex check maybe with [dablin] (https://github.com/Opendigitalradio/dablin)
- * odrTools check with a seperate window
+* The operating status of the multiplex (maybe with [dablin] (https://github.com/Opendigitalradio/dablin)) and odrTools should be visible.
 * If any component has an error, an alert appears about the failure. Additional will be sent an email.
 * The GUI could be controls and checked via remote-software (e.g. Team Viewer, VNC).
 
 ## 4. Settings:
 comming soon
+
+## 5. Software-Status:
+JAR-file without functionality only gui-elements -> **comming soon**
     
     << I would be grateful for more suggestions and ideas >>
  
