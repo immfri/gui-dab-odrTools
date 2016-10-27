@@ -26,10 +26,10 @@ Creating a graphical user interface (GUI) written by JavaFX that controls the co
 * The GUI could be controls and checked via remote-software (e.g. Team Viewer, VNC).
 
 ## 4. Settings:
-comming soon
+coming soon
 
 ## 5. Software-Status:
-JAR-file without functionality only gui-elements -> **comming soon**
+JAR-file without functionality only gui-elements -> **coming soon**
     
     << I would be grateful for more suggestions and ideas >>
  
