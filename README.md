@@ -6,9 +6,9 @@ Creating a graphical user interface (GUI) written by JavaFX that controls the co
 * At the beginning created a new configuration. Alternative open a configuration-file. 
 * The Configuration in first three Tabs from GUI (Multiplex, Components, Subchannels) based on **ODR-DabMux**. 
 * The Configuration in "Inputs"-Tab based on **ODR-AudioEnc** and **ODR-PadEnc**. In the future a Data-Encoder could be added. 
-* The Configuration in "Outputs"-Tab based on **ODR-DabMux** (in the section output) and **ODR-DabMod**.
+* The Configuration in "Outputs"-Tab based on **ODR-DabMux** and **ODR-DabMod**.
 * All about Logging and Remote as well as useful Parameters (e.g. EMail-Address) can be found under Settings. 
-
+* Between the ODR-Tools is always used ZeroMQ.
 * If the multiplex configuration is successfully, could be started.
 
 ## 2. Execution:
