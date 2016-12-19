@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="vBox" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="configUI.outputs.OutputsVBoxController">
+   <children>
+      <BorderPane>
+         <right>
+            <Button fx:id="remButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#removeOutput" prefWidth="130.0" text="- Remove Output" BorderPane.alignment="CENTER" />
+         </right>
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+         <left>
+            <MenuButton fx:id="addMenuButton" mnemonicParsing="false" prefWidth="130.0" text="+ Add Output" BorderPane.alignment="CENTER">
+              <items>
+                <MenuItem fx:id="deviceMenuItem" mnemonicParsing="false" onAction="#addDevice" text="Device" />
+                <MenuItem fx:id="fileMenuItem" mnemonicParsing="false" onAction="#addFile" text="File" />
+                  <MenuItem fx:id="networkMenuItem" mnemonicParsing="false" onAction="#addNetwork" text="Network" />
+              </items>
+            </MenuButton>
+         </left>
+      </BorderPane>
+      <ScrollPane fx:id="scrollPane" fitToWidth="true">
+         <content>
+            <Accordion fx:id="accordion" />
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>

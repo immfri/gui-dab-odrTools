@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane fx:id="titledPane" alignment="TOP_LEFT" animated="false" contentDisplay="RIGHT" text="Service" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="configUI.services.ServiceTitledPaneController">
+   <content>
+      <VBox fx:id="vBox" alignment="CENTER" maxWidth="1.7976931348623157E308">
+         <children>
+            <GridPane fx:id="servicePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="150.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="200.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label fx:id="name" text="Name" GridPane.valignment="TOP" />
+                  <Label fx:id="label" text="Label" GridPane.rowIndex="1" />
+                  <Label fx:id="shortLabel" text="Short-Label" GridPane.rowIndex="2" />
+                  <Label fx:id="ptyLabel" text="Programme-Type" GridPane.rowIndex="3" />
+                  <Label fx:id="languageLabel" text="Language" GridPane.rowIndex="4" />
+                  <TextField fx:id="nameTextField" promptText="Name enter" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                     <tooltip>
+                        <Tooltip text="Enter Service Name" />
+                     </tooltip>
+                  </TextField>
+                  <TextField fx:id="labelTextField" promptText="Label enter" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <tooltip>
+                        <Tooltip text="Service Label are maximum 16 characters in length" />
+                     </tooltip>
+                  </TextField>
+                  <TextField fx:id="shortLabelTextField" maxWidth="1.7976931348623157E308" promptText="Short-Label enter" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <tooltip>
+                        <Tooltip text="The short label is built from the label by erasing letters, and cannot be longer than 8 characters" />
+                     </tooltip>
+                  </TextField>
+                  <ChoiceBox fx:id="ptyChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <tooltip>
+                        <Tooltip text="Select the Genre of this Service" />
+                     </tooltip></ChoiceBox>
+                  <ChoiceBox fx:id="languageChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <tooltip>
+                        <Tooltip text="Select Service Language" />
+                     </tooltip></ChoiceBox>
+               </children>
+               <padding>
+                  <Insets bottom="3.0" />
+               </padding>
+            </GridPane>
+            <GridPane fx:id="advancedServicePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="150.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="200.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="idLabel" text="ID [hex.]" />
+                  <TextField fx:id="idTextField" promptText="no ID" GridPane.columnIndex="1">
+                     <tooltip>
+                        <Tooltip text="Service ID in 4-heximal-charaters" />
+                     </tooltip></TextField>
+               </children>
+               <padding>
+                  <Insets bottom="3.0" />
+               </padding>
+            </GridPane>
+            <Button fx:id="changePanesButton" mnemonicParsing="false" onAction="#changePanes" text="Show advanced parameters">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>

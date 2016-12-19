@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane fx:id="titledPane" graphicTextGap="20.0" maxWidth="1.7976931348623157E308" text="File:" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="configUI.outputs.FileTitledPaneController">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <content>
+      <VBox fx:id="vBox" alignment="CENTER" spacing="7.0">
+         <children>
+            <GridPane fx:id="filePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+               <children>
+                  <Label fx:id="nameLabel" text="Name" />
+                  <Label fx:id="fileLabel" text="Type" GridPane.rowIndex="1" />
+                  <Label fx:id="sourceLabel" text="File" GridPane.rowIndex="2" />
+                  <TextField fx:id="nameTextField" maxWidth="1.7976931348623157E308" promptText="Output name enter" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="fileChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <tooltip>
+                        <Tooltip text="Select type of File" />
+                     </tooltip></ChoiceBox>
+                  <TextField fx:id="sourceTextField" maxHeight="26.0" maxWidth="1.7976931348623157E308" promptText="no File" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="7.0" right="25.0" />
+                     </padding></TextField>
+                  <Button fx:id="browseButton" mnemonicParsing="false" onAction="#browseFile" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" prefHeight="40.0" valignment="TOP" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </GridPane>
+            <GridPane fx:id="formatPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+               <children>
+                  <Label fx:id="formatLabel" text="Format" />
+                  <ChoiceBox fx:id="formatChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+                     <tooltip>
+                        <Tooltip text="Format of File" />
+                     </tooltip></ChoiceBox>
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <Button fx:id="changePanesButton" mnemonicParsing="false" onAction="#changePanes" text="Show advanced parameters">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>

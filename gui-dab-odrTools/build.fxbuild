@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<anttasks:AntTask xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:anttasks="http://org.eclipse.fx.ide.jdt/1.0" buildDirectory="${project}/build">
+  <deploy height="" offlineAllowed="false" placeholderref="" placeholderid="" width="" packagingFormat="none">
+    <application name="gui-dabODRtools" mainclass="application.Main" version="0.3" toolkit="fx"/>
+    <info title="gui-odrTools-Suite" vendor="opendigitalradio.org"/>
+  </deploy>
+  <signjar/>
+</anttasks:AntTask>

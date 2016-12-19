@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="vBox" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="configUI.subchannels.DataVBoxController">
+   <children>
+      <GridPane fx:id="sourcePane" alignment="TOP_CENTER" hgap="10.0">
+         <children>
+            <Label fx:id="sourceLabel" text="Source" />
+            <ChoiceBox fx:id="sourceChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+         </children>
+         <rowConstraints>
+            <RowConstraints minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="150.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="filePane" alignment="TOP_CENTER" hgap="10.0">
+         <children>
+            <Label fx:id="fileLabel" text="Input-File" />
+            <TextField fx:id="fileTextField" maxHeight="26.0" promptText="no Data-File" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets left="7.0" right="25.0" />
+               </padding></TextField>
+            <Button fx:id="fileButton" mnemonicParsing="false" onAction="#browseInputFile" text="Browse" GridPane.columnIndex="2">
+               <tooltip>
+                  <Tooltip text="Browse the Audiofile here" />
+               </tooltip>
+            </Button>
+         </children>
+         <rowConstraints>
+            <RowConstraints minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="150.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="bitrateLevelPane" alignment="TOP_CENTER" hgap="10.0">
+         <children>
+            <Label fx:id="bitrateLabel" text="Bitrate [kbit/s]" />
+            <Label fx:id="levelLabel" text="Protection Level" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="bitrateChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+            <ChoiceBox fx:id="levelChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+         <rowConstraints>
+            <RowConstraints minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="150.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+   </children>
+</VBox>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="vBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="3.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="configUI.outputs.UhdVBoxController">
+   <children>
+      <GridPane fx:id="typePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="typeLabel" text="Type" />
+            <ChoiceBox fx:id="typeChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Type of Ettus USRP devices" />
+               </tooltip>
+            </ChoiceBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="40.0" valignment="TOP" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="subdevicePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="subdeviceLabel" text="Subdevice" />
+            <ChoiceBox fx:id="subdeviceChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="The subdevice parameter allows you; to choose which one to use." />
+               </tooltip>
+            </ChoiceBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="clockRatePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+         <children>
+            <Label fx:id="clockRateLabel" text="Master-Clockrate" />
+            <Spinner fx:id="clockRateSpinner" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Set master_clock_rate to a multiple of the sample_rate. Ideally, it should be master_clock_rate = 4 * sample_rate or even a higher factor." />
+               </tooltip></Spinner>
+         </children>
+      </GridPane>
+      <GridPane fx:id="equaliserPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="equaliserLabel" text="Cic-Equaliser" />
+            <CheckBox fx:id="equaliserCheckBox" mnemonicParsing="false" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Enable CicEqualiser" />
+               </tooltip>
+            </CheckBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="configPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="txGainLabel" text="TX-Gain" />
+            <Label fx:id="frequenzLabel" text="Frequenz [kHz]" GridPane.rowIndex="1" />
+            <Label fx:id="channelLabel" text="DAB-Channel" GridPane.rowIndex="2" />
+            <Label fx:id="refClockLabel" text="Ref.Clock-Source" GridPane.rowIndex="3" />
+            <Slider fx:id="txGainSlider" blockIncrement="1.0" majorTickUnit="10.0" max="31.0" minorTickCount="9" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="20.0" GridPane.columnIndex="1" />
+            <Spinner fx:id="frequenzSpinner" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="channelChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="refClockChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <tooltip>
+                  <Tooltip text="The reference clock to use" />
+               </tooltip></ChoiceBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="25.0" prefHeight="40.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="40.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="50.0" valignment="TOP" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </GridPane>
+      <GridPane fx:id="behavPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+         <children>
+            <Label fx:id="behRefClockLabel" text="Behaviour-Ref.Clock" />
+            <ChoiceBox fx:id="behRefClockChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Behaviour when external clock reference lock lost" />
+               </tooltip>
+            </ChoiceBox>
+         </children>
+      </GridPane>
+      <GridPane fx:id="ppsPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="ppsLabel" text="PPS-Source" />
+            <ChoiceBox fx:id="ppsChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="The reference one pulse-per second to use" />
+               </tooltip>
+            </ChoiceBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="gpsPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="holdoverTimeLabel" text="max. Holdovertime [sec.]" />
+            <Spinner fx:id="holdoverTimeSpinner" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="The maximum accepted holdover time for the gpsdo." />
+               </tooltip>
+            </Spinner>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="delayPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label text="Delaymanagement">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="synchLabel" text="Synchronous" GridPane.rowIndex="1" />
+            <Label fx:id="muteLabel" text="Mute-No-Timestamp" GridPane.rowIndex="2" />
+            <Label fx:id="offsetLabel" text="Offset" GridPane.rowIndex="3" />
+            <CheckBox fx:id="synchCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <tooltip>
+                  <Tooltip text="Enable handling of timestamps for SFN" />
+               </tooltip>
+            </CheckBox>
+            <CheckBox fx:id="muteCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <tooltip>
+                  <Tooltip text="Enable to mute the TX when incoming frames have no timestamp" />
+               </tooltip>
+            </CheckBox>
+            <TextField fx:id="offsetTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <tooltip>
+                  <Tooltip text="This offset is added to the TIST, and the sum defines the TX time of the transmission frame." />
+               </tooltip>
+            </TextField>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="50.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <Button fx:id="changePanesButton" mnemonicParsing="false" onAction="#changePanes" text="Show advanced parameters">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+</VBox>
