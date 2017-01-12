@@ -33,10 +33,10 @@ If the configuration is to be stored, the user selects a folder or create a new 
 If the complete configuration is without errors, it can be executed.
 
 ## Required:
-* ODR-DabMux	>= v1.0
-* ODR-DabMod 	>= v0.6
-* ODR-AudioEnc 	>= v2.0
-* ODR-PadEnc 	>= v2.0
+* ODR-DabMux	>= v1.1.0
+* ODR-DabMod 	>= v0.5.4
+* ODR-AudioEnc 	>= v2.0.0
+* ODR-PadEnc 	>= v2.0.0
 * JAVA JRE Version >= 8
 
 ## Pre-Installation
