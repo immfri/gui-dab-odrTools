@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<TitledPane fx:id="titledPane" graphicTextGap="20.0" maxWidth="1.7976931348623157E308" text="Subchannel: " xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="configUI.subchannels.SubchannelTitledPaneController">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <content>
+      <VBox fx:id="vBox" alignment="CENTER">
+         <children>
+            <GridPane fx:id="subchannelPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+               <children>
+                  <ChoiceBox fx:id="typeChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="typeLabel" text="Type" GridPane.rowIndex="1" />
+                  <Label fx:id="nameLabel" text="Name" />
+                  <TextField fx:id="nameTextField" maxWidth="1.7976931348623157E308" promptText="Subchannel name enter" GridPane.columnIndex="1" />
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" prefHeight="40.0" valignment="TOP" />
+                  <RowConstraints minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <GridPane fx:id="idPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+               <children>
+                  <Label fx:id="idLabel" text="ID [dec.]" />
+                  <TextField fx:id="idTextField" promptText="no ID" GridPane.columnIndex="1">
+                     <tooltip>
+                        <Tooltip text="Subchannel ID" />
+                     </tooltip></TextField>
+               </children>
+               <rowConstraints>
+                  <RowConstraints minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </GridPane>
+            <GridPane fx:id="zmqPane" alignment="TOP_CENTER" hgap="10.0">
+               <children>
+                  <Label text="ZeroMQ:">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="bufferLabel" text="Buffer" GridPane.rowIndex="1" />
+                  <Label fx:id="preBufferLabel" text="Prebuffer" GridPane.rowIndex="2" />
+                  <Label fx:id="encryptionLabel" text="Encryption" GridPane.rowIndex="3" />
+                  <TextField fx:id="bufferTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <tooltip>
+                        <Tooltip text="Maximum size of input buffer, in audio frames when this buffer size is reached, some frames will be discarded to get the size again below this value." />
+                     </tooltip>
+                  </TextField>
+                  <TextField fx:id="preBufferTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <tooltip>
+                        <Tooltip text="At startup or after an underrun, the buffer is filled to this amount of AAC frames before streaming starts." />
+                     </tooltip>
+                  </TextField>
+                  <CheckBox fx:id="encryptionCheckBox" mnemonicParsing="false" onAction="#updateEncryptionPane" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                     <tooltip>
+                        <Tooltip text="Enable ZeroMQ encryption" />
+                     </tooltip>
+                  </CheckBox>
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="30.0" prefHeight="50.0" />
+                  <RowConstraints minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints minHeight="15.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <GridPane fx:id="zmqEncryptionPane" alignment="TOP_CENTER" hgap="10.0">
+               <children>
+                  <Label fx:id="secretKeyLabel" text="Secret-Key" />
+                  <Label fx:id="publicKeyLabel" text="Public-Key" GridPane.rowIndex="1" />
+                  <Label fx:id="encoderKeyLabel" text="Encoder-Key" GridPane.rowIndex="2" />
+                  <TextField fx:id="secretKeyTextField" editable="false" maxHeight="26.0" promptText="no File" GridPane.columnIndex="1">
+                     <padding>
+                        <Insets left="7.0" right="25.0" />
+                     </padding></TextField>
+                  <TextField fx:id="publicKeyTextField" editable="false" maxHeight="26.0" promptText="no File" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets left="7.0" right="25.0" />
+                     </padding></TextField>
+                  <TextField fx:id="encoderKeyTextField" editable="false" maxHeight="26.0" promptText="no File" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <tooltip>
+                        <Tooltip text="Only the encoder you want to accept must know the corresponding secret key" />
+                     </tooltip>
+                     <padding>
+                        <Insets left="7.0" right="25.0" />
+                     </padding>
+                  </TextField>
+                  <Button fx:id="secretKeyButton" mnemonicParsing="false" onAction="#browseSecretKeyFile" text="Browse" GridPane.columnIndex="2">
+                     <tooltip>
+                        <Tooltip text="Browse the multiplexer scret key File (.sec)" />
+                     </tooltip>
+                  </Button>
+                  <Button fx:id="publicKeyButton" mnemonicParsing="false" onAction="#browsePublicKeyFile" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <tooltip>
+                        <Tooltip text="Browse the multiplexer public key File (.pub)" />
+                     </tooltip>
+                  </Button>
+                  <Button fx:id="encoderKeyButton" mnemonicParsing="false" onAction="#browseEncoderKeyFile" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <tooltip>
+                        <Tooltip text="Browse the public key File (.pub) from the encoder" />
+                     </tooltip>
+                  </Button>
+               </children>
+               <rowConstraints>
+                  <RowConstraints minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <Button fx:id="changePanesButton" mnemonicParsing="false" onAction="#changePanes" text="Show advanced parameters">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+         </children>
+      </VBox>
+   </content>
+   <graphic>
+      <ImageView fx:id="titledPaneImageView" fitHeight="15.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/dab-icon.png" />
+         </image>
+      </ImageView>
+   </graphic>
+</TitledPane>

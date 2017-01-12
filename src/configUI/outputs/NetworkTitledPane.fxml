@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane fx:id="titledPane" graphicTextGap="20.0" maxWidth="1.7976931348623157E308" text="Network:" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="configUI.outputs.NetworkTitledPaneController">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <content>
+      <VBox fx:id="vBox" alignment="CENTER">
+         <children>
+            <GridPane fx:id="networkPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+               <children>
+                  <Label fx:id="nameLabel" text="Name" />
+                  <Label fx:id="protocolLabel" text="Protocol" GridPane.rowIndex="1" />
+                  <TextField fx:id="nameTextField" maxWidth="1.7976931348623157E308" promptText="Output name enter" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="protocolChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="serviceLabel" text="Service" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets top="2.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ChoiceBox fx:id="serviceChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets top="2.0" />
+                     </GridPane.margin>
+                  </ChoiceBox>
+                  <Label fx:id="destinationLabel" text="Destination" GridPane.rowIndex="3" />
+                  <HBox alignment="CENTER_LEFT" minHeight="20.0" prefHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <TextField fx:id="destIpTextField" prefWidth="170.0" promptText="IP">
+                           <tooltip>
+                              <Tooltip text="IP Address from Destination" />
+                           </tooltip></TextField>
+                        <Label text=":">
+                           <HBox.margin>
+                              <Insets left="3.0" right="3.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="destPortTextField" prefWidth="80.0" promptText="Port">
+                           <tooltip>
+                              <Tooltip text="Portnumber from Destination" />
+                           </tooltip></TextField>
+                     </children>
+                  </HBox>
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" prefHeight="40.0" valignment="TOP" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="40.0" valignment="TOP" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <GridPane fx:id="multicastPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+               <children>
+                  <Label fx:id="multicastLabel" text="Multicast">
+                     <GridPane.margin>
+                        <Insets bottom="2.0" />
+                     </GridPane.margin></Label>
+                  <CheckBox fx:id="multicastCheckBox" mnemonicParsing="false" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="2.0" />
+                     </GridPane.margin></CheckBox>
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" valignment="BOTTOM" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <GridPane fx:id="sourcePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+               <children>
+                  <Label fx:id="ttlLabel" text="TTL" GridPane.rowIndex="1" />
+                  <TextField fx:id="ttlTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <tooltip>
+                        <Tooltip text="Network range in TTL" />
+                     </tooltip>
+                  </TextField>
+                  <Label text="Source" />
+                  <HBox alignment="CENTER_LEFT" minHeight="20.0" prefHeight="30.0" GridPane.columnIndex="1">
+                     <children>
+                        <TextField fx:id="sourceIpTextField" prefWidth="170.0" promptText="IP">
+                           <tooltip>
+                              <Tooltip text="IP Address from Source" />
+                           </tooltip>
+                        </TextField>
+                        <Label text=":">
+                           <HBox.margin>
+                              <Insets left="3.0" right="3.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="sourcePortTextField" prefWidth="80.0" promptText="Port">
+                           <tooltip>
+                              <Tooltip text="Portnumber from Source" />
+                           </tooltip>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <GridPane fx:id="ediPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+               <children>
+                  <Label text="PFT-Subsystem">
+                     <GridPane.margin>
+                        <Insets bottom="2.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="FEC" GridPane.rowIndex="1" />
+                  <Label fx:id="interleaverLabel" text="Interleaver" GridPane.rowIndex="2" />
+                  <Label text="Chunk-Length" GridPane.rowIndex="3" />
+                  <Label text="Dump" GridPane.rowIndex="4" />
+                  <Label text="Verbose" GridPane.rowIndex="5" />
+                  <Label text="Tagpacket-Alignment" GridPane.rowIndex="6" />
+                  <CheckBox fx:id="pftCheckBox" mnemonicParsing="false" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="2.0" />
+                     </GridPane.margin>
+                     <tooltip>
+                        <Tooltip text="Enable the PFT subsystem. If false, AFPackets are sent." />
+                     </tooltip>
+                  </CheckBox>
+                  <TextField fx:id="fecTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <tooltip>
+                        <Tooltip text="If set to 0, the PFT subsystem will only do Fragmentation and Transport, but no Reed Solomon. See ETSI TS 102 821, Clause 7 &quot;PFT Layer&quot;, Figure 10." />
+                     </tooltip>
+                  </TextField>
+                  <TextField fx:id="interleaverTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <tooltip>
+                        <Tooltip text="This latency is given in milliseconds, and rounded to nearest multiple of 24ms. Set to 0 to disable the interleaver." />
+                     </tooltip>
+                  </TextField>
+                  <TextField fx:id="chunkTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <tooltip>
+                        <Tooltip text="Length of a RS chunk, can be overriden" />
+                     </tooltip>
+                  </TextField>
+                  <CheckBox fx:id="dumpCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <tooltip>
+                        <Tooltip text="Enable to save the packets sent over ethernet to the file ./edi.debug" />
+                     </tooltip></CheckBox>
+                  <CheckBox fx:id="verboseCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <tooltip>
+                        <Tooltip text="Enable to show more debugging info" />
+                     </tooltip></CheckBox>
+                  <TextField fx:id="tagpacketTextField" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <tooltip>
+                        <Tooltip text="Set the kind of alignment to use in TAG Packets in bytes" />
+                     </tooltip>
+                  </TextField>
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" valignment="BOTTOM" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="15.0" prefHeight="25.0" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="15.0" prefHeight="25.0" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <GridPane fx:id="socketTypePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+               <children>
+                  <Label fx:id="socketTypeLabel" text="Socket-Type" />
+                  <ChoiceBox fx:id="socketTypeChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+               </children>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+                  <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+            <Button fx:id="changePanesButton" mnemonicParsing="false" onAction="#changePanes" text="Show advanced parameters">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>

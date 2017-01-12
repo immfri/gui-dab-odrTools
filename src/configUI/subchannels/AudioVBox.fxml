@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="vBox" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="configUI.subchannels.AudioVBoxController">
+   <children>
+      <GridPane fx:id="sourcePane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="sourceLabel" text="Source" />
+            <ChoiceBox fx:id="sourceChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+            <Label fx:id="pathLabel" text="URL" GridPane.rowIndex="1" />
+            <TextField fx:id="pathTextField" maxHeight="26.0" maxWidth="1.7976931348623157E308" promptText="no URL" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <tooltip>
+                  <Tooltip text="Enter path to the Soure" />
+               </tooltip>
+               <padding>
+                  <Insets left="7.0" right="25.0" />
+               </padding>
+            </TextField>
+            <Label fx:id="levelLabel" text="Protection Level" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="levelChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="bitrateLabel" text="Bitrate [kbit/s]" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="bitrateChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="samplerateChannelPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="samplerateLabel" text="Samplerate" />
+            <Label fx:id="channelLabel" text="Channel" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="samplerateChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+            <ChoiceBox fx:id="channelChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="driftPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="driftLabel" text="Drift-Compensation" />
+            <CheckBox fx:id="driftCheckBox" mnemonicParsing="false" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Audiostream bitrate is slightly wrong (bad clock at the source), you can enable drift compensation" />
+               </tooltip>
+            </CheckBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="padPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+         <children>
+            <Label text="PAD:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="30.0" prefHeight="50.0" valignment="CENTER" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="advancedPadPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <children>
+            <Label fx:id="lengthLabel" text="PAD-Length [bytes]" />
+            <TextField fx:id="lengthTextField" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Set the X-PAD length" />
+               </tooltip>
+            </TextField>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="dlsPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+         <children>
+            <Label fx:id="dlsLabel" text="Dynamic Label" underline="true" />
+            <CheckBox fx:id="dlsCheckBox" mnemonicParsing="false" onAction="#changeDlsConfigPane" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Enable Dynamic Label" />
+               </tooltip>
+            </CheckBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="dlsConfigPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+         <children>
+            <Label fx:id="dlsFileLabel" alignment="TOP_LEFT" contentDisplay="CENTER" text="DLS-Textfile" />
+            <TextField fx:id="dlsFileTextField" editable="false" maxHeight="26.0" promptText="no File" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Fifo or file to read DLS text from" />
+               </tooltip>
+               <padding>
+                  <Insets left="7.0" right="25.0" />
+               </padding>
+            </TextField>
+            <Button fx:id="dlsFileButton" mnemonicParsing="false" onAction="#browseDlsFile" text="Browse" GridPane.columnIndex="2" />
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="150.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </GridPane>
+      <GridPane fx:id="advancedDlsConfigPane" alignment="TOP_CENTER" hgap="10.0">
+         <children>
+            <Label fx:id="charsetLabel" text="Charset-Encoding" />
+            <Label fx:id="rawDlsLabel" text="RAW-DLS" GridPane.rowIndex="1" />
+            <Label fx:id="removeDlsLabel" text="Remove-DLS" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="charsetChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Character set encoding used for DLS text." />
+               </tooltip>
+            </ChoiceBox>
+            <CheckBox fx:id="rawDlsCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <tooltip>
+                  <Tooltip text="Enable do not process slides. Integrity checks and resizing slides is skipped." />
+               </tooltip>
+            </CheckBox>
+            <CheckBox fx:id="removeDlsCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <tooltip>
+                  <Tooltip text="Erase slides once they have been encoded." />
+               </tooltip>
+            </CheckBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="150.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </GridPane>
+      <GridPane fx:id="slsPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+         <children>
+            <Label fx:id="slsLabel" text="MOT-Slideshow" underline="true" />
+            <CheckBox fx:id="slsCheckBox" mnemonicParsing="false" onAction="#changeSlsConfigPane" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Enable MOT Slideshows" />
+               </tooltip>
+            </CheckBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+      </GridPane>
+      <GridPane fx:id="slsConfigPane" alignment="TOP_CENTER" hgap="10.0">
+         <children>
+            <Label fx:id="delayLabel" text="Delay [sec.]" />
+            <Label fx:id="imageFolderLabel" text="Image-Folder" GridPane.rowIndex="1" />
+            <TextField fx:id="delayTextField" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Wait DELAY seconds between each slide" />
+               </tooltip>
+            </TextField>
+            <TextField fx:id="imageFolderTextField" editable="false" maxHeight="26.0" promptText="no Folder" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <tooltip>
+                  <Tooltip text="Directory to read images from" />
+               </tooltip>
+               <padding>
+                  <Insets left="7.0" right="25.0" />
+               </padding>
+            </TextField>
+            <Button fx:id="imageFolderButton" mnemonicParsing="false" onAction="#browseFolder" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="150.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </GridPane>
+      <GridPane fx:id="advancedSlsConfigPane" alignment="TOP_CENTER" hgap="10.0">
+         <children>
+            <Label fx:id="rawSlidesLabel" text="RAW-Slides" />
+            <Label fx:id="eraseSlidesLabel" text="Erase-Slides" GridPane.rowIndex="1" />
+            <CheckBox fx:id="rawSlidesCheckBox" mnemonicParsing="false" GridPane.columnIndex="1">
+               <tooltip>
+                  <Tooltip text="Enable do not process slides. Integrity checks and resizing slides is skipped." />
+               </tooltip>
+            </CheckBox>
+            <CheckBox fx:id="eraseSlidesCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <tooltip>
+                  <Tooltip text="Erase slides once they have been encoded." />
+               </tooltip>
+            </CheckBox>
+         </children>
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="150.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </GridPane>
+   </children>
+</VBox>
