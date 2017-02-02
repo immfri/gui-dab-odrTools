@@ -12,7 +12,9 @@ public class USRP1 extends UHD {
 	public USRP1() {
 		super("usrp1", 20.0, 31.0);
 		
+		master_clock_rate.setValue("");
 		subdevice = new SimpleStringProperty("A:0");
+		
 	}
 
 

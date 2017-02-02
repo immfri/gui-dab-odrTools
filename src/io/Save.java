@@ -12,26 +12,33 @@ import model.output.*;
 
 public class Save {	
 	
-	public Save(File saveFolder) throws IOException {
+	public Save() throws IOException {
+		File saveFolder = Multiplex.getInstance().getProjectFolder();
 		
-		if (saveFolder.listFiles().length > 0) {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Overwrite");
-			alert.setHeaderText("Files will be overwrite");
+		if (saveFolder != null) {
+			if (saveFolder.listFiles().length > 0) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Overwrite");
+				alert.setHeaderText("Configuration-Files overwrite");
 
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				
-				// all files inside folder delete 
-				for (File file: saveFolder.listFiles()) {
-				    file.delete();
-				}
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					
+					// Remove all DabMod-Config. Files and FIFOs
+					for (File file: saveFolder.listFiles()) {
+						if (file.getName().contains(".ini") || file.getName().contains(".fifo") || file.getName().contains(".log")) {
+							file.delete();
+						}
+					}
+					startSaving(saveFolder);
+				} 
+			}
+			else {
 				startSaving(saveFolder);
-			} 
+			}
 		}
-		else {
-			startSaving(saveFolder);
-		}
+		// Activate Garbage Collector, delete all un-/used Object
+		System.gc();
 	}	
 		
 	
@@ -71,6 +78,7 @@ public class Save {
 		File bashFile = new File(saveFolder.getAbsolutePath() +"/dab.sh");
 		BashFileWriter bashFw = new BashFileWriter(bashFile, Multiplex.getInstance());
 		bashFw.close();
+		
 	}
 
 }

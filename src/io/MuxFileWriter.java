@@ -157,6 +157,7 @@ public class MuxFileWriter extends FileWriter {
 	public void writeOutputList(ObservableList<Output> list) throws IOException {
 		
 		boolean needSimul = false;
+		boolean ediExist = false;
 		
 		// start of section
 		this.write("outputs {\n");
@@ -166,9 +167,11 @@ public class MuxFileWriter extends FileWriter {
 			
 			if (output.getFormat().getValue().contains("edi")) {				
 				needSimul = true;
+				ediExist = true;
 			
-				// print first edi from List
+				// write first edi from List
 				this.write("\tedi {\n");
+				this.write("\t\tdestinations {\n");
 				break;
 			}
 		}	
@@ -179,7 +182,6 @@ public class MuxFileWriter extends FileWriter {
 
 				// edi
 				if (output.getFormat().getValue().contains("edi")) {
-					needSimul = true;
 
 					// get All Attributes from edi
 					ArrayList<Field> fields = new ArrayList<>(Arrays.asList(output.getClass().getDeclaredFields()));	//edi
@@ -206,25 +208,26 @@ public class MuxFileWriter extends FileWriter {
 
 								// Write Section Name
 								if (index == 0) {
-									this.write("\t\t"+ value +" {\n");
+									this.write("\t\t\t"+ value +" {\n");
 								} 
 								else if (index > 1) {
 									String name = fields.get(index).getName();
 
 									// Writing
 									if (name.contains("destination") || name.contentEquals("source")) {
-										this.write("\t\t\t"+ name +" \""+ value +"\"\n");
+										this.write("\t\t\t\t"+ name +" \""+ value +"\"\n");
 									} 
 									else if (!name.contains("multicast") && !name.contentEquals("port")) {
-										this.write("\t\t\t"+ name +" "+ value +"\n");
+										this.write("\t\t\t\t"+ name +" "+ value +"\n");
 									}
 								}
 							}
 						}
 					}
-					this.write("\t\t}\n");
-				} 
+					this.write("\t\t\t}\n");
+				} 	
 			}	
+			if (ediExist) this.write("\t\t}\n");
 
 			// write advanced EDI Attributes
 			for (Output output: list) {
@@ -251,10 +254,11 @@ public class MuxFileWriter extends FileWriter {
 							if (!value.toString().isEmpty()) {
 
 								String name = fields.get(index).getName();
+								
 								this.write("\t\t"+ name +" "+ value +"\n");
 							}
 						}
-						if (index == 2) index = 7;
+						if (index == 2) index = 6;
 					}
 					this.write("\t}\n");
 					break;

@@ -136,7 +136,7 @@
       <GridPane fx:id="dlsConfigPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
          <children>
             <Label fx:id="dlsFileLabel" alignment="TOP_LEFT" contentDisplay="CENTER" text="DLS-Textfile" />
-            <TextField fx:id="dlsFileTextField" editable="false" maxHeight="26.0" promptText="no File" GridPane.columnIndex="1">
+            <TextField fx:id="dlsFileTextField" maxHeight="26.0" promptText="no File" GridPane.columnIndex="1">
                <tooltip>
                   <Tooltip text="Fifo or file to read DLS text from" />
                </tooltip>
@@ -220,7 +220,7 @@
                   <Tooltip text="Wait DELAY seconds between each slide" />
                </tooltip>
             </TextField>
-            <TextField fx:id="imageFolderTextField" editable="false" maxHeight="26.0" promptText="no Folder" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="imageFolderTextField" maxHeight="26.0" promptText="no Folder" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <tooltip>
                   <Tooltip text="Directory to read images from" />
                </tooltip>

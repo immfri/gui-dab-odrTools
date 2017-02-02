@@ -13,6 +13,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -58,6 +59,24 @@ public class NetworkTitledPaneController implements Initializable {
 		
 		// Protokoll
 		protocolChoiceBox.setItems(FXCollections.observableArrayList("UDP","TCP"));
+		
+		// Destination Port
+		destPortTextField.setTextFormatter(new TextFormatter<String>(c -> {
+			
+			// Text empty
+			if (c.getControlNewText().isEmpty()) c.setText("12000");   
+
+			// only decimal chars
+			if (!c.getControlNewText().matches("\\d*")) return null;
+
+			// only numbers, not "0123" , "0..."
+			if (c.getControlNewText().length() > 1 && c.getControlNewText().charAt(0) == '0') return null;
+
+			// only valide numbers < maxPort
+			if (Integer.parseInt(c.getControlNewText()) > 65535) return null;
+
+			return c;
+		}));
 			
 		// Multicast
 		multicastCheckBox.selectedProperty().addListener(change -> setSourcePane());
@@ -149,12 +168,15 @@ public class NetworkTitledPaneController implements Initializable {
 				// Socket-Type
 				socketTypeChoiceBox.setItems(iq.getSocketTypeList());
 				socketTypeChoiceBox.valueProperty().unbindBidirectional(iq.getSocketType());
+				System.out.println(iq.getSocketType());
 				socketTypeChoiceBox.valueProperty().bindBidirectional(iq.getSocketType());
 				
-				new PortValidation(destPortTextField, iq.getListen(), 9100);
+				destPortTextField.textProperty().unbindBidirectional(iq.getListen());
+				destPortTextField.textProperty().bindBidirectional(iq.getListen());
 			} 
 			else {																			// ETI-ZMQ
-				new PortValidation(destPortTextField, out.getDestination(), 9100);
+				destPortTextField.textProperty().unbindBidirectional(out.getDestination());
+				destPortTextField.textProperty().bindBidirectional(out.getDestination());
 			}
 			destIpTextField.setText("*");
 		}
@@ -163,7 +185,9 @@ public class NetworkTitledPaneController implements Initializable {
 
 			// Destination
 			new IpValidation(destIpTextField, edi.getDestination());
-			new PortValidation(destPortTextField, edi.getDestinationPort(), 12000);
+			destPortTextField.textProperty().unbindBidirectional(edi.getDestinationPort());
+			destPortTextField.textProperty().bindBidirectional(edi.getDestinationPort());
+			
 
 			// Multicast
 			multicastCheckBox.selectedProperty().unbind();
@@ -199,13 +223,17 @@ public class NetworkTitledPaneController implements Initializable {
 
 			// Tagpacket
 			new NumberValidation(tagpacketTextField, edi.getTagpacket_alignment(), 0, 255, 1, null);
+			
+			// advanced Parameters are the same in all EDI-Outputs
+			bindEDI(edi);
 		}
 		else {																				// TCP/UDP	
 			Network net = (Network)out;
 			
 			// Destination
 			new IpValidation(destIpTextField, net.getDestination());
-			new PortValidation(destPortTextField, net.getDestinationPort(), 7000);
+			destPortTextField.textProperty().unbindBidirectional(net.getDestinationPort());
+			destPortTextField.textProperty().bindBidirectional(net.getDestinationPort());
 
 			// Multicast
 			multicastCheckBox.selectedProperty().unbind();
@@ -242,20 +270,8 @@ public class NetworkTitledPaneController implements Initializable {
 				out = edi;
 				
 				// advanced Parameters are the same in all EDI-Outputs
-				for (Output o: Multiplex.getInstance().getOutputList()) {					
-
-					if (o.getFormat().getValue().contains("edi")) {			
-						edi.getDestinationPort().bindBidirectional(((EDI)o).getDestinationPort());
-						edi.getEnable_pft().bindBidirectional(((EDI)o).getEnable_pft());
-						edi.getFec().bindBidirectional(((EDI)o).getFec());
-						edi.getInterleave().bindBidirectional(((EDI)o).getInterleave());
-						edi.getChunk_len().bindBidirectional(((EDI)o).getChunk_len());
-						edi.getDump().bindBidirectional(((EDI)o).getDump());
-						edi.getVerbose().bindBidirectional(((EDI)o).getVerbose());
-						edi.getTagpacket_alignment().bindBidirectional(((EDI)o).getTagpacket_alignment());
-						break;
-					}
-				}
+				bindEDI(edi);
+				
 			}
 			else {
 				Network net;
@@ -280,6 +296,24 @@ public class NetworkTitledPaneController implements Initializable {
 		}
 	}
 	
+	private void bindEDI(EDI edi) {
+		
+		for (Output o: Multiplex.getInstance().getOutputList()) {					
+			if (o.getFormat().getValue().contains("edi") && !o.equals(edi)) {	
+				edi.getDestinationPort().bindBidirectional(((EDI)o).getDestinationPort());
+				edi.getEnable_pft().bindBidirectional(((EDI)o).getEnable_pft());
+				edi.getFec().bindBidirectional(((EDI)o).getFec());
+				edi.getInterleave().bindBidirectional(((EDI)o).getInterleave());
+				edi.getChunk_len().bindBidirectional(((EDI)o).getChunk_len());
+				edi.getDump().bindBidirectional(((EDI)o).getDump());
+				edi.getVerbose().bindBidirectional(((EDI)o).getVerbose());
+				edi.getTagpacket_alignment().bindBidirectional(((EDI)o).getTagpacket_alignment());
+				break;
+			}
+		}		
+	}
+
+
 	private void setModulatorVBox(ETIZeromq zmq) {
 		
 		String source = "tcp://localhost:" + zmq.getDestination().getValue();

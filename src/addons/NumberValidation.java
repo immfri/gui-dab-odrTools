@@ -55,9 +55,21 @@ public class NumberValidation extends Validation {
 					return null;
 				}
 				
-				// Only for ensemble
+				// only for Ensemble -> ETI Frames
 				if (label != null) {
-					label.setVisible(number == 0);
+					switch (number) {
+					
+					case 0: 
+						label.setText("nonstop"); 
+						break;
+						
+					case 1:
+						label.setText("1 ETI-Frame");
+						break;
+						
+					default:
+						label.setText(number + " ETI-Frames");
+					}
 				}
 				
 				return c;

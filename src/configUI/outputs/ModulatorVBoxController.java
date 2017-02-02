@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import addons.*;
+import model.Multiplex;
 import model.output.*;
 
 
@@ -51,7 +52,7 @@ public class ModulatorVBoxController implements Initializable {
 		
 		// FIR
 		firCheckBox.selectedProperty().addListener(c -> setFirFilterPane());
-		new FileValidation(firFileTextField, modulator.getFiltertapsfile());
+		new FileValidation(firFileTextField, modulator.getFiltertapsfile(), true);
 		
 		// Remote Control
 		telnetTextField.textProperty().addListener(c -> {
@@ -72,7 +73,6 @@ public class ModulatorVBoxController implements Initializable {
 	}
 	
 	public void setModulator(Modulator modulator) {
-		
 		this.modulator = modulator;
 		
 		// Gain Mode
@@ -84,7 +84,7 @@ public class ModulatorVBoxController implements Initializable {
 		new NumberValidation(samplerateTextField, modulator.getRate(), 1000, 50000000, 1, null);
 		
 		// Dig Gain
-		digGainSlider.valueProperty().unbindBidirectional(modulator.getDigital_gain());
+		digGainSlider.valueProperty().bindBidirectional(modulator.getDigital_gain());
 		digGainSlider.valueProperty().bindBidirectional(modulator.getDigital_gain());
 		
 		// Fir
@@ -105,7 +105,7 @@ public class ModulatorVBoxController implements Initializable {
 		// Filelog
 		filelogCheckBox.selectedProperty().unbindBidirectional(modulator.getFilelog());
 		filelogCheckBox.selectedProperty().bindBidirectional(modulator.getFilelog());
-		new FileValidation(logfileTextField, modulator.getFilename());
+		new FileValidation(logfileTextField, modulator.getFilename(), false);
 		
 		// Frames Queue
 		new NumberValidation(framesQueueTextField, modulator.getMax_frames_queued(), 0, 10000, 1, null);
@@ -117,12 +117,20 @@ public class ModulatorVBoxController implements Initializable {
 	private void browseFirFile() {
 		
 		FileChooser chooser = new FileChooser(); 
-		chooser.setInitialDirectory(new File("."));
 		chooser.setTitle("Select "+ firFileLabel.getText());
+		
+		if (Multiplex.getInstance().getProjectFolder() == null) {
+			chooser.setInitialDirectory(new File("."));
+		}
+		else {
+			chooser.setInitialDirectory(Multiplex.getInstance().getProjectFolder());
+		}	
 		
 		File file = chooser.showOpenDialog(null);
 		if(file != null) {
-			firFileTextField.setText(file.getAbsolutePath());
+			String path = file.getAbsolutePath();
+			path = path.replace(chooser.getInitialDirectory().getAbsolutePath(), ".");
+			firFileTextField.setText(path);
 		}		
 	}
 	
@@ -131,12 +139,20 @@ public class ModulatorVBoxController implements Initializable {
 	private void browseLogFile() {
 		
 		FileChooser chooser = new FileChooser(); 
-		chooser.setInitialDirectory(new File("."));
 		chooser.setTitle("Select "+ logfileLabel.getText());
 		
+		if (Multiplex.getInstance().getProjectFolder() == null) {
+			chooser.setInitialDirectory(new File("."));
+		}
+		else {
+			chooser.setInitialDirectory(Multiplex.getInstance().getProjectFolder());
+		}
 		File file = chooser.showOpenDialog(null);
+		
 		if(file != null) {
-			logfileTextField.setText(file.getAbsolutePath());
+			String path = file.getAbsolutePath();
+			path = path.replace(chooser.getInitialDirectory().getAbsolutePath(), ".");
+			logfileTextField.setText(path);
 		}	
 	}
 	

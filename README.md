@@ -6,6 +6,10 @@ Creating a graphical user interface (GUI) written by JavaFX that controls the co
 ## 1. New/Open Configuration:
 At the beginning created a new configuration. Alternative open a configuration-file. 
 
+Note:     Loading externally created configuration doesn't work to 100%
+Reason:   The complexity of configuration settings!
+Solution: Save the complete configuration by GUI and open it.
+
 ## 2. Configure:
 * The Configuration in first three Tabs from GUI (Multiplex, Components, Subchannels) based on **ODR-DabMux**. 
 * The Configuration in "Subchannels"-Tab based on **ODR-AudioEnc** and **ODR-PadEnc**. In the future a Data-Encoder could be added. 
@@ -29,8 +33,22 @@ Subchannel supported Input from Audio and Data.
 ## 3. Save Configuration:
 If the configuration is to be stored, the user selects a folder or create a new one.
 
+Files (don't rename it) inside project folder:
+* dab.mux: Multiplex Configuration File 
+* xxxx.mod: Modulator Configuration File for DabMod (filename equals output-name in dab.mux)
+* dab.sh: Bash-File to start all processes with screen (GUI didn't execute this skript, only the processes without screen)
+
 ## 4. Execution:
 If the complete configuration is without errors, it can be executed.
+
+## 5. Monitoring
+The GUI managed all Processes from ODR-Tools. If a process crashes or terminates, the user would be informed over a Alert-Window and additionally with E-Mail.
+
+## 6. Addition
+* Remote Control: TeamViewer, VNC, ...
+* Check ETI-Stream: dablin_gtk (https://github.com/Opendigitalradio/dablin) -> need to create a ETI-File-Output (FIFO) for dablin input.
+* Audio VU-meter: e.g. pavumeter (sudo  apt-get install pavumeter)
+* E-Mail-Log: need configure 'postfix' with exist Mail-Account (https://help.ubuntu.com/community/Postfix) and enter receiver Mail-Address in the GUI
 
 ## Required:
 * ODR-DabMux	>= v1.1.0
@@ -44,26 +62,17 @@ If the complete configuration is without errors, it can be executed.
 * Under UNIX => Install Open-JavaFX ("sudo apt-get install openjfx")
 
 ## Installation:
-* Set the executable Bit under Settings und run with double click
-* start console and start GUI with command "java -jar /path/of/the/jar/file.jar" 
+* Set the executable Bit under Settings and run with double click
+* open Console and start GUI with command "java -jar /path/of/the/jar/file.jar" 
 
-## Status: v0.4 
-
-Note:     Loading externally created configuration does not work 100%
-
-Reason:   The complexity of configuration settings!
-
-Solution: Save the complete configuration by GUI and open it.
-
+## Status: v0.5 - finally 
 
 * Open a new Configuration 	**==> work**
-* Open a Configuration 		**==> almost (not the "Outputs"!)**
+* Open a Configuration 		**==> work**
 * Configure 				**==> work**
 * Save 						**==> work**
-* Execution					**==> not work**
-    
-    << I would be grateful for more suggestions and ideas >>
- 
-Cheers 
+* Execution					**==> work**
+* Monitoring				**==> work**
 
-Immanuel F.
+
+<< Immanuel F. >>

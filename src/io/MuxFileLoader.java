@@ -5,18 +5,23 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.*;
+import model.output.*;
 
 
 public class MuxFileLoader {
 	
+	private final String dabmod = "odr-dabmod";
+	
 	private Multiplex mux;
 	private ArrayList<Component> componentList;		// need for visibility of Service-/Subchannel-ChoiceBox in ComponentTitledPane
-
-	public MuxFileLoader(File muxFile) throws IOException {
+	private ArrayList<Output> outputList;
+	private ArrayList<Subchannel> subchannelList;
+	
+	
+	public MuxFileLoader(File muxFile, File bashFile) throws IOException {
 		mux = Multiplex.getInstance();
 		
 		loadSection("general", muxFile, "mux");
@@ -27,7 +32,10 @@ public class MuxFileLoader {
 		loadSectionList("services", muxFile);
 		
 		// Subchannels
+		subchannelList = new ArrayList<>();
 		loadSectionList("subchannels", muxFile);
+		mux.getSubchannelList().addAll(subchannelList);
+		subchannelList.clear();
 		
 		// Components
 		componentList = new ArrayList<>();
@@ -38,10 +46,65 @@ public class MuxFileLoader {
 		componentList.clear();
 		
 		// Outputs
+		outputList = new ArrayList<>();
+		
+		loadOutputSection(muxFile);
+		
+		//------------ load advanced Output Parameters from DabMod ------------------
+		for (File modFile: getDabModFiles(bashFile)) {
+			new ModFileLoader(modFile, outputList);
+		}
+		
+		mux.getOutputList().addAll(outputList);
+		outputList.clear();
 	}
 	
 
 	private void loadSectionList(String sectionName, File muxFile) throws IOException {
+
+		BufferedReader reader = new BufferedReader(new FileReader(muxFile));
+		String line = reader.readLine();
+		
+		// Find Section
+		while (line != null) {
+			if (line.contains(sectionName)) break;
+			line = reader.readLine(); 	
+		}
+			
+		// Read to end of Section	
+		int sectionIndex = 1;
+			
+		while (sectionIndex > 0) {		
+			line = reader.readLine();
+				
+			if (line == null) break;
+			else if (line.contains("}")) sectionIndex--;
+				
+			else {		
+				String[] strings = line.split(" ");
+				
+				// possible Entries
+				if (strings.length > 1) {
+					
+					String name = strings[0].replaceAll("\\s","");
+					String value = strings[1].replaceAll("\\s","");
+					if (value.indexOf("\"") == 0) value = value.replaceAll("\"","");		// EDI, ... "destination..."  -> remove ""
+					
+					// Not Comment Line
+					if (name.indexOf(0) != ';') {		
+						if (value.contentEquals("{")) {
+							loadSection(name, muxFile, sectionName);
+							sectionIndex++;
+						}		
+					}
+				}				
+			}		 
+		}
+		reader.close();
+	}
+
+
+	private void loadOutputSection(File muxFile) throws IOException {
 
 		BufferedReader reader = new BufferedReader(new FileReader(muxFile));
 		String line;
@@ -49,44 +112,140 @@ public class MuxFileLoader {
 		// Find Section
 		do {
 			line = reader.readLine(); 
-			if (line.contains(sectionName)) break;
+			
+			if (line.contains("outputs")) {
+				line = reader.readLine(); 
+				break;
+			}
 		}
 		while (line != null);
 			
 		// Read Section
-		if (line != null) {
-			line = reader.readLine();
+		while (line != null) {		
+			String[] strings = line.split(" ");
 			
-			// Read to end of Section	
-			int sectionIndex = 1;
-			
-			while (sectionIndex > 0) {
-				String[] strings = line.split(" ");
+			// Output valide
+			if (strings.length > 1) {
 				
-				// possible Entries
-				if (strings.length > 1) {
-					// Subsection Name
-					String name = strings[0].replaceAll("\\s","");
-					
-					// Not Comment Line
-					if (name.indexOf(0) != ';') {
-						
-						if (strings[1].replaceAll("\\s","").contentEquals("{")) {
-							loadSection(name, muxFile, sectionName);
-							sectionIndex++;
-						}		
-					}
-				}		
-				line = reader.readLine();
-						
-				if (line == null) break;
-				if (line.contains("}")) sectionIndex--;
-			}		 
+				// Check if edi output		
+				if (strings[0].replaceAll("\\s","").contentEquals("edi")) {
+					loadSectionList("destinations", muxFile);
+				} 
+				// advanced EDI Parameters
+				else if (!strings[1].contains("\"")) {
+					loadEdi(reader, line);
+				}
+				// another Output
+				else if (strings[1].contains("\"") && !strings[1].contains("simul://")) {		
+					loadOutput(strings[0].replaceAll("\\s",""), strings[1].replaceAll("\\s",""));
+				}
+			}
+			line = reader.readLine();
 		}
 		reader.close();
 	}
 
 
+	// not EDI Output
+	private void loadOutput(String name, String parameter) {
+		
+		String format = parameter.substring(1, parameter.indexOf(":"));
+		String destination = parameter.substring(parameter.indexOf("//")+2, parameter.length()-1);
+		int portIndex = destination.indexOf(":");
+		
+		Output out = null;
+		
+		switch (format) {
+		case "fifo":					// EtiFile		
+			out = new ETIFile(name);			
+			int typeIndex = destination.indexOf("?");
+			
+			if (typeIndex != -1) {
+				out.getDestination().setValue(destination.substring(0, typeIndex));
+				((ETIFile)out).getType().setValue(destination.substring(typeIndex+6));
+			}
+			break;
+			
+		case "zmq+tcp":					// all Zmq-Outputs and Outputs with Modulator
+			out = new ETIZeromq(name);
+			
+			// Destination Port
+			if (portIndex != -1) {
+				out.getDestination().setValue(destination.substring(portIndex+1));
+			}
+			break;
+		
+		case "tcp":						// TCP
+		case "udp":						// UDP
+			out = new Network(name, format);		
+			int multicastIndex = destination.indexOf("?");
+			
+			// Destination IP
+			if (portIndex != -1) {
+				out.getDestination().setValue(destination.substring(0, portIndex));
+				
+				// Destination Port and Multicast
+				if (multicastIndex != -1 && format.contentEquals("udp")) {
+					String[] multi = destination.substring(multicastIndex+1).split(",");
+					((Network)out).getDestinationPort().setValue(destination.substring(portIndex+1, multicastIndex));
+					
+					// Multicast
+					if (multi.length > 1) {
+						((Network)out).getMulticast().setValue(true);
+						((Network)out).getSource().setValue(multi[0].substring(4));
+						((Network)out).getTtl().setValue(multi[1].substring(4));
+					}
+				}
+				// only Destination Port
+				else {
+					((Network)out).getDestinationPort().setValue(destination.substring(portIndex+1));
+				}
+			}
+			break;
+			
+		case "raw":						// FarSync
+			out = new ETIDevice(name);
+			out.getDestination().setValue(destination);
+			break;
+		}	
+		
+		if (out != null) outputList.add(out);
+	}
+
+
+	private void loadEdi(BufferedReader reader, String line) throws IOException {
+		EDI edi = null;
+		
+		// select first EDI Output
+		for (Output out: outputList) {
+			if (out.getFormat().getValue().contentEquals("edi")) {
+				edi = (EDI)out;
+				break;
+			}
+		}
+			
+		while (!line.replaceAll("\\s","").contains("}") && edi != null) {		
+			String[] strings = line.split(" ");	
+			
+			if (strings.length > 1) {
+				String name = strings[0].replaceAll("\\s","");
+				String value = strings[1].replaceAll("\\s","");	
+				
+				switch (name) {	
+				case "port": 					edi.getDestinationPort().setValue(value); 		break;
+				case "enable_pft":				edi.getEnable_pft().setValue(getBool(value));	break;
+				case "fec": 					edi.getFec().setValue(value);					break;
+				case "interleave":				edi.getInterleave().setValue(value);			break;
+				case "chunk_len":				edi.getChunk_len().setValue(value);				break;
+				case "dump":					edi.getDump().setValue(getBool(value));			break;
+				case "verbose":					edi.getVerbose().setValue(getBool(value));		break;
+				case "tagpacket_alignment":		edi.getTagpacket_alignment().setValue(value);	break;
+				
+				}
+			}
+			line = reader.readLine();
+		}
+	}
 
 
 	private void loadSection(String sectionName, File muxFile, String type) throws IOException {
@@ -107,35 +266,43 @@ public class MuxFileLoader {
 			while (!line.contains("}")) {
 				line = reader.readLine();
 				
-				String[] strings = line.split(" ");	
+				String[] strings = line.split(" ");
 				if (strings.length > 1) {
 					
 					String name = strings[0].replaceAll("\\s","");
 					String value = strings[1].replaceAll("\\s","");	
 					
+					// Label/ShortLabel with " "
+					int index = 2;
+					while (value.charAt(value.length()-1) != 34 && strings.length > index) {
+						value = value + " " + strings[index++];
+					}
+					
 					// Not Comment Line
-					if (!name.isEmpty()) {
+					if (!name.isEmpty() && name.indexOf(";") == -1) {
 						
 						// switch Mux-Section
 						boolean isAnError = false;
 						switch (type) {
 						
 						case "mux":
-							isAnError = writeToMux(name, value);
+							isAnError = loadToMux(name, value);
 							break;
 						
 						case "services":
-							isAnError = writeToService(sectionName, name, value);
+							isAnError = loadToService(sectionName, name, value);
 							break;
 							
 						case "subchannels":
-							isAnError = writeToSubchannel(sectionName, name, value);
+							isAnError = loadToSubchannel(sectionName, name, value);
 							break;
 							
 						case "components":
-							isAnError = writeToComponent(sectionName, name, value);
+							isAnError = loadToComponent(sectionName, name, value);
 							break;	
-						
+							
+						case "destinations":	// EDI Destinations
+							isAnError = loadToEdi(sectionName, name, value);
 						}
 						
 						if (isAnError) {
@@ -154,7 +321,41 @@ public class MuxFileLoader {
 	}
 	
 
-	private boolean writeToMux(String name, String value) {
+	private boolean loadToEdi(String ediName, String name, String value) {
+		EDI edi = null;
+		
+		// EDI init.
+		for (Output out: outputList) {
+			
+			if (out.getFormat().getValue().contentEquals("edi") && ediName.contains(out.getName().getValue())) {
+				edi = (EDI)out;
+				break;
+			}
+		}
+		
+		// EDI is not exist before
+		if (edi == null) {
+			edi = new EDI(ediName);
+			outputList.add(edi);
+		}
+		
+		value = value.replaceAll("\"","");
+		
+		// Set EDI Attributes
+		switch (name) {	
+		
+		case "destination":			edi.getDestination().setValue(value);					return false;				
+		case "source": 				edi.getMulticast().setValue(true);
+									edi.getSource().setValue(value);						return false;						
+		case "sourceport":			edi.getSourceport().setValue(value);					return false;
+		case "ttl":					edi.getTtl().setValue(value);							return false;	
+		}	
+		
+		return true;
+	}
+
+
+	private boolean loadToMux(String name, String value) {
 		Ensemble ensemble = mux.getEnsemble();
 		
 		switch (name) {
@@ -193,7 +394,7 @@ public class MuxFileLoader {
 	}
 	
 	
-	private boolean writeToService(String serviceName, String name, String value) {
+	private boolean loadToService(String serviceName, String name, String value) {
 		Service service = null;
 		
 		// Service init.
@@ -224,11 +425,11 @@ public class MuxFileLoader {
 	}
 	
 	
-	private boolean writeToSubchannel(String subchName, String name, String value) { 	// beim erstellen von Subchannel, muss korrekter Input gesetzt werden!!!!
+	private boolean loadToSubchannel(String subchName, String name, String value) { 	// beim erstellen von Subchannel, muss korrekter Input gesetzt werden!!!!
 		Subchannel subch = null;
 		
 		// Subchannel init.
-		for (Subchannel sub: mux.getSubchannelList()) {
+		for (Subchannel sub: subchannelList) {
 			if (sub.getName().getValue().contentEquals(subchName)) {
 				subch = sub;
 				break;
@@ -249,7 +450,7 @@ public class MuxFileLoader {
 			default: 																						return true;
 			}
 	
-			mux.getSubchannelList().add(subch);
+			subchannelList.add(subch);
 		}
 
 		switch (name) {
@@ -298,7 +499,7 @@ public class MuxFileLoader {
 	
 	
 	
-	private boolean writeToComponent(String compName, String name, String value) {
+	private boolean loadToComponent(String compName, String name, String value) {
 		Component comp = null;
 		
 		// Component init.
@@ -319,7 +520,7 @@ public class MuxFileLoader {
 		
 		case "id":					comp.getId().setValue(value);									return false;
 		case "type":				comp.getType().setValue(value);									return false;
-		case "figtype":				comp.getFigtype().setValue(value);								return false;
+		case "figtype":																				return false;
 		case "address":				comp.getAddress().setValue(value);								return false;
 		case "datagroup":			comp.getDatagroup().setValue(getBool(value));					return false;
 		
@@ -337,6 +538,29 @@ public class MuxFileLoader {
 		}
 		
 		return true;
+	}
+	
+	private ArrayList<File> getDabModFiles(File bashFile) throws IOException {
+		
+		ArrayList<File> modFiles = new ArrayList<>();
+		BufferedReader reader = new BufferedReader(new FileReader(bashFile));
+		
+		String line = reader.readLine();
+		while (line != null) {
+			
+			if (line.contains(dabmod)) {
+				String fileName = line.substring(line.indexOf("-C") + 3);
+
+				// fileName is valide
+				if (!fileName.contains(" ")) {
+					modFiles.add(new File(bashFile.getParentFile() +"/"+ fileName));
+				}
+			}
+			line = reader.readLine();
+		}
+		reader.close();	
+		
+		return modFiles;
 	}
 		
 	

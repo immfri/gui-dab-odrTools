@@ -58,6 +58,7 @@ public class DeviceTitledPaneController implements Initializable {
 		}
 		else {
 			deviceChoiceBox.getSelectionModel().select(1);		// USRP device
+			fxmlLoader.<UhdVBoxController>getController().setZmq((ETIZeromq)out);	
 		}
 		setPane();
 		deviceChoiceBox.valueProperty().addListener(change -> changeDevice());
@@ -90,8 +91,10 @@ public class DeviceTitledPaneController implements Initializable {
 			out = new ETIDevice(nameTextField.getText());			
 		}
 		else {														// UHD
-			out = new ETIZeromq(nameTextField.getText());	
-			fxmlLoader.<UhdVBoxController>getController().setZmq((ETIZeromq)out);			
+			ETIZeromq zmq = new ETIZeromq(nameTextField.getText());
+			zmq.setMod(new B100());	
+			fxmlLoader.<UhdVBoxController>getController().setZmq(zmq);	
+			out = zmq;
 		}
 		setPane();
 		

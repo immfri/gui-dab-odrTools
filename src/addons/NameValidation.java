@@ -1,10 +1,13 @@
 package addons;
 
+import java.util.ArrayList;
+
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import model.*;
+import model.output.*;
 
 
 public class NameValidation extends Validation {
@@ -16,7 +19,7 @@ public class NameValidation extends Validation {
 		textField.setTextFormatter(new TextFormatter<String>(c -> {
 
 			if (c.getControlNewText().length() > 25) return null;
-			if (c.getControlNewText().contains(" ")) return null;
+			if (c.getControlNewText().matches(".*[^-_A-Za-z0-9].*")) return null;
 			
 			checkName(textField, list);
 			return c;
@@ -37,37 +40,43 @@ public class NameValidation extends Validation {
 		if (textField.getText().length() > 0) {
 			int count = 0;
 			
-			if (list != null) {
-				for (Object obj: Multiplex.getInstance().getServiceList()) {
-
-					if (((Element)obj).getName().getValue().contentEquals(textField.getText())) count++;
+			// All Names in Project
+			if (list != null) {	
+				ArrayList<String> nameList = getAllNameList();
+				for (String s: nameList) {
+					if (s.contains(textField.getText())) count++;
 					if (count > 1) break;
 				}
-				if (count < 2) {
-					for (Object obj: Multiplex.getInstance().getSubchannelList()) {
-
-						if (((Element)obj).getName().getValue().contentEquals(textField.getText())) count++;
-						if (count > 1) break;
-					}
-				}
-				if (count < 2) {
-					for (Object obj: Multiplex.getInstance().getComponentList()) {
-
-						if (((Element)obj).getName().getValue().contentEquals(textField.getText())) count++;
-						if (count > 1) break;
-					}
-				}
-				if (count < 2) {
-					for (Object obj: Multiplex.getInstance().getOutputList()) {
-
-						if (((Element)obj).getName().getValue().contentEquals(textField.getText())) count++;
-						if (count > 1) break;
-					}
-				}
-			}
-
+				nameList.clear();
+			}		
 			if (count < 2) textField.setStyle(ok);
-			
 		}
+	}
+	
+	
+	private ArrayList<String> getAllNameList() {
+		ArrayList<String> allNameList = new ArrayList<>();
+		
+		// Services
+		for (Service serv: Multiplex.getInstance().getServiceList()) {
+			allNameList.add(serv.getName().getValue());
+		}
+		
+		// Components
+		for (Component comp: Multiplex.getInstance().getComponentList()) {
+			allNameList.add(comp.getName().getValue());
+		}
+		
+		// Subchannel
+		for (Subchannel subch: Multiplex.getInstance().getSubchannelList()) {
+			allNameList.add(subch.getName().getValue());
+		}
+			
+		// Outputs
+		for (Output out: Multiplex.getInstance().getOutputList()) {
+			allNameList.add(out.getName().getValue());
+		}
+				
+		return allNameList;
 	}
 }

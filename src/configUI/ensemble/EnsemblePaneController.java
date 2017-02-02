@@ -36,15 +36,12 @@ public class EnsemblePaneController implements Initializable {
 	@FXML TextField labelTextField, shortLabelTextField, idTextField, eccTextField;
 	@FXML ChoiceBox<String> intTableChoiceBox;
 	@FXML Spinner<String> offsetSpinner;
-	
-	
+		
 	private Multiplex mux;
-	private Ensemble ensemble;
-	
+	private Ensemble ensemble;	
 	private boolean advancedView;
 	
-	
-	
+		
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -103,8 +100,7 @@ public class EnsemblePaneController implements Initializable {
 		advancedView = false;
 		muxVBox.getChildren().removeAll(advancedGeneralPane, advancedEnsemblePane);
 	}
-	
-	
+
 
 	@FXML
 	private void changePanes() {

@@ -1,5 +1,7 @@
 package model;
 
+import java.io.File;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -29,6 +31,8 @@ public class Multiplex {
 	private ObservableList<Subchannel> subchannelList;	
 	private ObservableList<Output> outputList;
 	
+	private File projectFolder = null;
+	private StringProperty mail;
 	
 	
 	private Multiplex() {		
@@ -51,6 +55,9 @@ public class Multiplex {
 		
 		// Subchannel Listener -> CU
 		subchannelList.addListener((ListChangeListener<Subchannel>) change -> updateCU());	
+		
+		
+		mail = new SimpleStringProperty("");
 	}
 	
 	public static synchronized Multiplex getInstance() {
@@ -117,6 +124,14 @@ public class Multiplex {
 		return componentList;
 	}
 
+	public File getProjectFolder() {
+		return projectFolder;
+	}
+	
+	public void setProjectFolder(File folder) {
+		projectFolder = folder;
+	}
+	
 	public void updateCU() {
 		int cu = 0;
 		for (Subchannel subCh: Multiplex.getInstance().getSubchannelList()) {
@@ -142,5 +157,9 @@ public class Multiplex {
 		ensemble.getLabel().setValue("");
 		ensemble.getShortLabel().setValue("");
 		ensemble.getLocalTimeOffset().setValue("auto");
+	}
+
+	public StringProperty getEMail() {
+		return mail;
 	}	
 }

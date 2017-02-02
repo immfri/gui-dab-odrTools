@@ -3,6 +3,7 @@ package addons;
 import java.io.File;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.TextField;
+import model.Multiplex;
 
 
 public class FolderValidation extends Validation {
@@ -26,9 +27,27 @@ public class FolderValidation extends Validation {
 		textField.setStyle(nok);
 
 		if (!textField.getText().isEmpty()) {
-			File folder = new File(textField.getText());
 			
-			if (folder.isDirectory()) textField.setStyle(ok);
+			// Relative Path
+			if (textField.getText().indexOf(".") == 0) {
+				File projectFolder = Multiplex.getInstance().getProjectFolder();
+				
+				if (projectFolder!= null) {
+					String absolutePath = projectFolder.getAbsolutePath() + textField.getText().substring(1);
+					File checkFolder = new File(absolutePath);
+					
+					if (checkFolder != null) {
+						if (checkFolder.isDirectory() && checkFolder.exists())	textField.setStyle(ok);
+					}
+				}
+			}
+			
+			// Absolute Path
+			else {
+				File checkFolder = new File(textField.getText());
+			
+				if (checkFolder.isDirectory() && checkFolder.exists()) textField.setStyle(ok);
+			}
 		}
 	}
 }

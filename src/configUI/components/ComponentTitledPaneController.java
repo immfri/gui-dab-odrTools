@@ -42,11 +42,11 @@ public class ComponentTitledPaneController implements Initializable {
 			
 		// Service init.
 		serviceChoiceBox.setItems(Multiplex.getInstance().getServiceList());
-		updateServiceNames();
+		updateServiceNames(null);
 
 		// Subchannel init.
 		subchannelChoiceBox.setItems(Multiplex.getInstance().getSubchannelList());	
-		updateSubchannelNames();
+		updateSubchannelNames(null);
 				
 		
 		advancedView = false;
@@ -64,7 +64,7 @@ public class ComponentTitledPaneController implements Initializable {
 		// Name
 		new NameValidation(nameTextField, comp.getName(), Multiplex.getInstance().getComponentList());
 		
-		// UA Type
+		// Fig-Type
 		new IdValidation(figtypeTextField, comp.getFigtype(), 3, FXCollections.observableArrayList());
 		
 		// Type
@@ -98,7 +98,6 @@ public class ComponentTitledPaneController implements Initializable {
 	
 		if (component.getSubchannel() != null) {
 			component.getDatagroup().setValue(false);
-			component.getFigtype().setValue("");
 			component.getType().setValue("0");
 			
 			String inputType = component.getSubchannel().getInput().getType().getValue();
@@ -108,22 +107,8 @@ public class ComponentTitledPaneController implements Initializable {
 			}
 			else {																// Audio
 				component.getAddress().setValue("");
-				
-				// set fig-type 0x2 if SLS in audio selected
-				Audio audio = (Audio)component.getSubchannel().getInput();
-				if (audio.getPad().getSlsEnabled().getValue()) {
-					component.getFigtype().setValue("0x2");
-				}
-				
-				audio.getPad().getSlsEnabled().addListener(c -> {
-					if (audio.getPad().getSlsEnabled().getValue()) {
-						component.getFigtype().setValue("0x2");
-					} 
-					else {
-						component.getFigtype().setValue("");
-					}
-				});
 			}
+			
 			setPacketPane();
 		}
 	}
@@ -158,15 +143,19 @@ public class ComponentTitledPaneController implements Initializable {
 	}
 	
 	
-	private void updateSubchannelNames() {
+	private void updateSubchannelNames(Subchannel s) {
 		
-		subchannelChoiceBox.setValue(null);	
+		if (s == null) subchannelChoiceBox.setValue(null);	
+		else if (subchannelChoiceBox.getValue() != null) {
+			if (subchannelChoiceBox.getValue().equals(s)) subchannelChoiceBox.setValue(null);	
+		}
+		
 		subchannelChoiceBox.setConverter(new StringConverter<Subchannel>() {
 			
 			@Override
 			public String toString(Subchannel s) {
-				s.getName().removeListener(c -> updateSubchannelNames());
-				s.getName().addListener(c -> updateSubchannelNames());	
+				s.getName().removeListener(c -> updateSubchannelNames(s));
+				s.getName().addListener(c -> updateSubchannelNames(s));	
 				return s.getName().get();
 			}
 
@@ -177,15 +166,19 @@ public class ComponentTitledPaneController implements Initializable {
 		});
 	}
 
-	private void updateServiceNames() {
+	private void updateServiceNames(Service s) {
 		
-		serviceChoiceBox.setValue(null);
+		if (s == null) serviceChoiceBox.setValue(null);
+		else if (serviceChoiceBox.getValue() != null) {
+			 if (serviceChoiceBox.getValue().equals(s)) serviceChoiceBox.setValue(null);
+		}
+		
 		serviceChoiceBox.setConverter(new StringConverter<Service>() {	
 			
 			@Override
 			public String toString(Service s) {
-				s.getName().removeListener(c -> updateServiceNames());
-				s.getName().addListener(c -> updateServiceNames());	
+				s.getName().removeListener(c -> updateServiceNames(s));
+				s.getName().addListener(c -> updateServiceNames(s));	
 				return s.getName().get();
 			}
 

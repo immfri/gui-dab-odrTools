@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 public class IQZeromq extends Modulator {
 
 	
-	private StringProperty listen, socketType;
+	private StringProperty listen, socket_type;
 	private ObservableList<String> socketTypeList;
 	
 	
@@ -18,8 +18,8 @@ public class IQZeromq extends Modulator {
 		
 		socketTypeList = FXCollections.observableArrayList("pub","rep");
 		
-		listen =		new SimpleStringProperty("54000");					// in save/load to 	tcp://*:54000
-		socketType = 	new SimpleStringProperty(socketTypeList.get(0));	
+		listen =		new SimpleStringProperty("54000");
+		socket_type = 	new SimpleStringProperty(socketTypeList.get(0));	
 	}
 
 
@@ -30,7 +30,7 @@ public class IQZeromq extends Modulator {
 	}
 
 	public StringProperty getSocketType() {
-		return socketType;
+		return socket_type;
 	}
 
 	public ObservableList<String> getSocketTypeList() {

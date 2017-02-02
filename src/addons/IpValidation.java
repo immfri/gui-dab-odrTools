@@ -14,7 +14,7 @@ public class  IpValidation extends Validation {
 		// Text Formatter
 		textField.setTextFormatter(new TextFormatter<> (c -> {  
 
-			if (c.getControlNewText().isEmpty()) c.setText("10.10.10.10");
+			if (c.getControlNewText().isEmpty()) c.setText("127.0.0.1");
 			if (c.getControlNewText().matches("\\p{Alpha}")) return null;
 			
 			return c;

@@ -64,7 +64,7 @@ public class PortValidation extends Validation {
 			// Port exist first time and not any more 
 			if (count < 2 && !textField.getText().isEmpty()) {
 				// Check Port is valide
-				if (Integer.parseInt(textField.getText()) > 1024) textField.setStyle(ok);		
+				if (Integer.parseInt(textField.getText()) > 1023) textField.setStyle(ok);		
 			}
 		} 
 		else if (defaultPort == 0) {

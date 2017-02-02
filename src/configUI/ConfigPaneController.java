@@ -18,24 +18,39 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import model.*;
+import processing.*;
 import io.*;
 
 
 public class ConfigPaneController implements Initializable {
 	
-	@FXML Tab ensembleTab, servicesTab, componentsTab, subchannelsTab, outputsTab;
-	
-	@FXML Button newButton, openButton, saveButton;
+	@FXML Tab ensembleTab, servicesTab, componentsTab, subchannelsTab, outputsTab;	
+	@FXML Button runningButton, newButton, openButton, saveButton, saveAsButton;
+	@FXML TextField mailTextField;
 	@FXML Label cuLabel;
 	@FXML ProgressBar cuProgressBar;
 	
-	private File projectFolder = null;
+	private Multiplex mux;
+	private ProcessManager pm;
 
+	
 	@Override
-	public void initialize(URL location, ResourceBundle resources){
+	public void initialize(URL location, ResourceBundle resources) {
+		mux = Multiplex.getInstance();
+		pm = new ProcessManager(runningButton);
+		
+		// Listener for running Button
+		runningButton.textProperty().addListener(c -> changeButtonView());
+		
+		// Set up save-Button
+		saveButton.setDisable(true);
 		
 		// Init. Tabs
 		try {
@@ -57,7 +72,168 @@ public class ConfigPaneController implements Initializable {
 		
 		cuLabel.textProperty().bind(currentCU.asString());
 		cuProgressBar.progressProperty().bind(currentCU.divide(maxCU));
+		
+		// Mail
+		mailTextField.textProperty().bindBidirectional(mux.getEMail());
 	}
+	
+	@FXML
+	private void clickedRunningButton() {
+		
+		String os = System.getProperty("os.name");
+		
+		if ((os.contains("ix") || os.contains("nux")) && mux.getProjectFolder() != null) {
+			
+			if (runningButton.getText().contentEquals("Start")) {
+				runningButton.setText("Stop");
+				pm.start();
+			}
+			else {
+				runningButton.setText("Start");
+				pm.stop();
+			}
+			
+		}
+		else if (mux.getProjectFolder() != null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("This OS is not fully supported");
+			alert.setContentText("The Running-Operation did not working on this OS. Only for UNIX!");
+			alert.show();
+		}
+		else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("No Project");
+			alert.setContentText("Load or create first a Project!");
+			alert.show();
+		}
+	}
+	
+	
+	private void changeButtonView() {
+		
+		ImageView view = new ImageView();
+		view.setFitHeight(70);
+		view.setFitWidth(70);
+		
+		if (runningButton.getText().contentEquals("Start")) {
+			view.setImage(new Image("icons/media-start-icon.png"));
+		}
+		else {
+			view.setImage(new Image("icons/media-stop-icon.png"));
+		}
+		
+		runningButton.setGraphic(view);
+	}
+	
+	@FXML
+	private void newConfig() {
+		
+		// Warning delete Configuration
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Remove the Configuration");
+		alert.setHeaderText("The complete Configuration will be lost");
+
+		ButtonType ok = new ButtonType("OK");
+		alert.getButtonTypes().setAll(ok, new ButtonType("Cancel"));
+		Optional<ButtonType> result = alert.showAndWait();
+
+		if (result != null) {
+			if (result.get() == ok) {
+
+
+				mux.setProjectFolder(null);
+				setNewMux(false);	
+
+				// Set up save-Button
+				saveButton.setDisable(true);
+
+				// Remove Projekt-Name
+				((Stage)openButton.getScene().getWindow()).setTitle("ODR-DAB-Suite-2017");
+			}
+		}
+	}
+	
+	@FXML
+	private void openConfig() throws IOException {
+		setNewMux(true); 
+		
+		File projectFolder = mux.getProjectFolder();
+		
+		// Choose Project Folder
+		DirectoryChooser chooser = new DirectoryChooser(); 
+		chooser.setTitle("Browse Folder");
+		
+		if (projectFolder != null) {
+			chooser.setInitialDirectory(projectFolder.getParentFile());	
+		}
+		else {
+			chooser.setInitialDirectory(new File("."));	
+		}
+		
+		projectFolder = chooser.showDialog(null);
+		
+		if (projectFolder != null) {
+			boolean validBashFileExist = false;
+			mux.setProjectFolder(projectFolder);
+			
+			// Set up save-Button
+			saveButton.setDisable(false);
+
+			// Search valid Bash File
+			for (File bashFile: projectFolder.listFiles()) {	
+				if (bashFile.getName().length() > 3 && bashFile.getName().indexOf(".sh") == (bashFile.getName().length()-3)) {
+
+					// Bash File is valid
+					validBashFileExist = true;
+					new Load(projectFolder, bashFile);
+
+					// Set Projekt-Name
+					((Stage)openButton.getScene().getWindow()).setTitle("Project from "+projectFolder.getAbsolutePath());
+					break;
+				}
+			}
+
+			// Alert/Dialog Folder not valide Project inside
+			if (!validBashFileExist) {
+				Alert alertBash = new Alert(AlertType.ERROR);
+				alertBash.setTitle("Project can't load");
+				alertBash.setContentText("Need an allowed Bash-File!");
+				alertBash.showAndWait();
+			} 
+			
+			// Project done to load
+			else {
+				Alert alertDone = new Alert(AlertType.INFORMATION);
+				alertDone.setTitle("DONE");
+				alertDone.setContentText("Project is completly loaded!");
+				alertDone.show();
+			}
+		}
+		
+	}
+	
+	@FXML
+	private void saveConfig() throws IOException {	
+		new Save();		
+	}
+	
+	@FXML
+	private void saveAsConfig() throws IOException {
+		
+		DirectoryChooser chooser = new DirectoryChooser(); 
+		chooser.setTitle("Browse Folder");
+		chooser.setInitialDirectory(new File("."));
+		
+		mux.setProjectFolder(chooser.showDialog(null));
+		
+		if (mux.getProjectFolder() != null) {
+			new Save();
+			
+			// Set up save-Button
+			saveButton.setDisable(false);
+		}
+	}
+	
 	
 	private void setCuAlert(int cu) {
 		if (cu > 864) {
@@ -71,105 +247,24 @@ public class ConfigPaneController implements Initializable {
 		} 
 		else cuLabel.setStyle("");
 	}
+
 	
-	
-	@FXML
-	private void newConfig() {
-
-		// Warning -> all configurations lost
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Remove the Configuration");
-		alert.setHeaderText("The completely Configuration will be lost");
+	private void setNewMux(boolean removeOnlyAllLists) {
 		
-		ButtonType ok = new ButtonType("OK");
-		alert.getButtonTypes().setAll(ok, new ButtonType("Cancel"));
-		Optional<ButtonType> result = alert.showAndWait();
-		
-		if (result != null) {
-			if (result.get() == ok) {
-				
-				// all config. removes
-				Multiplex mux = Multiplex.getInstance();	
-				mux.newGeneral();
-				mux.newEnsemble();
-				mux.getComponentList().clear();
-				mux.getServiceList().clear();
-				mux.getSubchannelList().clear();
-				mux.getOutputList().clear();
-			} 
-		}	
-	}
-	
-	@FXML
-	private void saveConfig() throws IOException {
-		
-		DirectoryChooser chooser = new DirectoryChooser(); 
-		chooser.setTitle("Browse Folder");
-		chooser.setInitialDirectory(new File("."));
-		
-		projectFolder = chooser.showDialog(null);
-		
-		if (projectFolder != null) new Save(projectFolder);		
-	}
-	
-	@FXML
-	private void openConfig() throws IOException {
-
-		// Warning delete Configuration
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Remove the Configuration");
-		alert.setHeaderText("The completely Configuration will be lost");
-
-		ButtonType ok = new ButtonType("OK");
-		alert.getButtonTypes().setAll(ok, new ButtonType("Cancel"));
-		Optional<ButtonType> result = alert.showAndWait();
-
-		if (result != null) {
-			if (result.get() == ok) {
-
-				// Clear all Lists
-				Multiplex mux = Multiplex.getInstance();
-				mux.getComponentList().clear();
-				mux.getServiceList().clear();
-				mux.getSubchannelList().clear();
-				mux.getOutputList().clear();
-
-				// Choose Folder
-				DirectoryChooser chooser = new DirectoryChooser(); 
-				chooser.setTitle("Browse Folder");
-				chooser.setInitialDirectory(new File("."));	
-				projectFolder = chooser.showDialog(null);
-
-				if (projectFolder != null) {
-					boolean validBashFileExist = false;
-
-					// Search valid Bash File
-					for (File bashFile: projectFolder.listFiles()) {	
-						if (bashFile.getName().length() > 3 && bashFile.getName().indexOf(".sh") == (bashFile.getName().length()-3)) {
-							
-							// Bash File is valid
-							validBashFileExist = true;
-							new Load(projectFolder, bashFile);
-							break;
-						}
-					}
-
-					// Alert/Dialog Folder not valide Project inside
-					if (!validBashFileExist) {
-						Alert alertBash = new Alert(AlertType.ERROR);
-						alertBash.setTitle("Project can't load");
-						alertBash.setContentText("Need an allowed Bash-File!");
-						alertBash.showAndWait();
-					} 
-					// Project done to load
-					else {
-						Alert alertDone = new Alert(AlertType.INFORMATION);
-						alertDone.setTitle("DONE");
-						alertDone.setContentText("Project is completly loaded!");
-						alertDone.show();
-					}
-				}
-			}		
+		// Set up General and Ensemble
+		if (!removeOnlyAllLists) {
+			mux.newGeneral();
+			mux.newEnsemble();
 		}
+		
+		// Clear all Lists
+		mux.getComponentList().clear();
+		mux.getServiceList().clear();
+		mux.getSubchannelList().clear();
+		mux.getOutputList().clear();	
+		
+		// Activate Garbage Collector, delete all un-/used Object
+		System.gc();
 	}
+	
 }

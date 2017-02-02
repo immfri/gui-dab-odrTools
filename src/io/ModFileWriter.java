@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 import javafx.beans.property.Property;
 import model.output.Modulator;
+import model.output.UHD;
 
 public class ModFileWriter extends FileWriter {
 
@@ -20,7 +21,6 @@ public class ModFileWriter extends FileWriter {
 		super(file);
 		
 		this.modulator = modulator;
-		
 		
 		// All attributes
 		fields = new ArrayList<>(Arrays.asList(modulator.getClass().getDeclaredFields()));
@@ -47,8 +47,13 @@ public class ModFileWriter extends FileWriter {
 			break;
 			
 		case "uhd":
-			writeSection("uhdoutput", 		18,35);
-			writeSection("delaymanagement", 31,34);
+			if (((UHD)modulator).getType().getValue().contentEquals("usrp1")) {
+				writeSection("uhdoutput", 	18,36);
+			}
+			else {
+				writeSection("uhdoutput", 	18,35);
+			}	
+			writeSection("delaymanagement", 32,35);
 			break;
 			
 		default:	// ZMQ-Output
@@ -116,5 +121,4 @@ public class ModFileWriter extends FileWriter {
 		}
 		this.write("\n");
 	}
-
 }

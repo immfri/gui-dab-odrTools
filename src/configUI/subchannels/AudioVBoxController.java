@@ -124,7 +124,7 @@ public class AudioVBoxController implements Initializable {
 
 		// DLS	
 		dlsCheckBox.selectedProperty().bindBidirectional(audio.getPad().getDlsEnabled());	
-		new FileValidation(dlsFileTextField, audio.getPad().getFileDls());
+		new FileValidation(dlsFileTextField, audio.getPad().getFileDls(), true);
 		charsetChoiceBox.setItems(audio.getPad().getCharsetList());
 		charsetChoiceBox.valueProperty().bindBidirectional(audio.getPad().getCharset());
 		rawDlsCheckBox.selectedProperty().bindBidirectional(audio.getPad().getRawDls());	
@@ -141,8 +141,9 @@ public class AudioVBoxController implements Initializable {
 		sourceChoiceBox.valueProperty().addListener((o, old, newSource) -> changeSourcePane());  
 		this.audio.getBitrate().addListener(brListener);
 		this.audio.getProtectionLevel().addListener(plListener);
+		
+		this.audio.updateCU();
 	}
-	
 	
 	
 	
@@ -264,13 +265,20 @@ public class AudioVBoxController implements Initializable {
 	@FXML
 	private void browseDlsFile() {
 
-		FileChooser chooser = new FileChooser(); 
-		chooser.setInitialDirectory(new File("."));
+		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Select DLS-File");
+		if (Multiplex.getInstance().getProjectFolder() == null) {
+			chooser.setInitialDirectory(new File("."));
+		}
+		else {
+			chooser.setInitialDirectory(Multiplex.getInstance().getProjectFolder());
+		}
 		
 		File file = chooser.showOpenDialog(null);
-		if(file != null) {
-			dlsFileTextField.setText(file.getAbsolutePath());
+		if (file != null) {
+			String path = file.getAbsolutePath();
+			path = path.replace(chooser.getInitialDirectory().getAbsolutePath(), ".");
+			dlsFileTextField.setText(path);
 		}
 	}
 	
@@ -279,11 +287,18 @@ public class AudioVBoxController implements Initializable {
 		
 		DirectoryChooser chooser = new DirectoryChooser(); 
 		chooser.setTitle("Select Image-Folder");
-		chooser.setInitialDirectory(new File("."));
+		if (Multiplex.getInstance().getProjectFolder() == null) {
+			chooser.setInitialDirectory(new File("."));
+		}
+		else {
+			chooser.setInitialDirectory(Multiplex.getInstance().getProjectFolder());
+		}
 		
 		File folder = chooser.showDialog(null);
 		if(folder != null) {
-			imageFolderTextField.setText(folder.getAbsolutePath());
+			String path = folder.getAbsolutePath();
+			path = path.replace(chooser.getInitialDirectory().getAbsolutePath(), ".");
+			imageFolderTextField.setText(path);
 		}
 	}
 }

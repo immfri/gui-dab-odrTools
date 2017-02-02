@@ -78,7 +78,7 @@ public class SubchannelTitledPaneController implements Initializable {
 
 		// Type
 		typeChoiceBox.setItems(subch.getTypeNameList());	
-		typeChoiceBox.getSelectionModel().select(0);
+		typeChoiceBox.getSelectionModel().select(subch.getTypeList().indexOf(subch.getType().getValue()));
 		typeChoiceBox.valueProperty().addListener(c -> changeType());
 
 
@@ -88,9 +88,9 @@ public class SubchannelTitledPaneController implements Initializable {
 		
 		encryptionCheckBox.selectedProperty().bindBidirectional(subch.getEncryption());
 		
-		new FileValidation(secretKeyTextField, subch.getSecretKey());
-		new FileValidation(publicKeyTextField, subch.getPublicKey());
-		new FileValidation(encoderKeyTextField, subch.getEncoderKey());
+		new FileValidation(secretKeyTextField, subch.getSecretKey(), true);
+		new FileValidation(publicKeyTextField, subch.getPublicKey(), true);
+		new FileValidation(encoderKeyTextField, subch.getEncoderKey(), true);
 
 		// ID
 		new SubchannelIdValidation(idTextField, subch.getId(), Multiplex.getInstance().getSubchannelList());
@@ -100,7 +100,12 @@ public class SubchannelTitledPaneController implements Initializable {
 		audioFxmlLoader.<AudioVBoxController>getController().setAudio((Audio)subchannel.getInput());
 //		dataFxmlLoader.<DataVBoxController>getController().setData((Data)subchannel.getInput());
 		
-		vBox.getChildren().add(1, audioVBox);
+		if (typeChoiceBox.getSelectionModel().getSelectedIndex() < 2) {
+			vBox.getChildren().add(1, audioVBox);
+		}
+		else {
+			vBox.getChildren().add(1, dataVBox);
+		}
 	}
 
 	private void initInputPanes() {
@@ -198,36 +203,54 @@ public class SubchannelTitledPaneController implements Initializable {
 
 	@FXML
 	private void browseSecretKeyFile() {
-		
 		File file = openFileChooser(secretKeyLabel.getText(), new ExtensionFilter("Secret Files","*.sec"));
-		if(file != null) {
-			secretKeyTextField.setText(file.getAbsolutePath());
+		
+		if (file != null) {
+			secretKeyTextField.setText(getFilePath(file));
 		}
 	}
 	
 	@FXML
-	private void browsePublicKeyFile() {
-		
+	private void browsePublicKeyFile() {	
 		File file = openFileChooser(publicKeyLabel.getText(), new ExtensionFilter("Public Files","*.pub"));
-		if(file != null) {
-			publicKeyTextField.setText(file.getAbsolutePath());
+		
+		if (file != null) {
+			publicKeyTextField.setText(getFilePath(file));
 		}
 	}
 	
 	@FXML
 	private void browseEncoderKeyFile() {
 		File file = openFileChooser(encoderKeyLabel.getText(), new ExtensionFilter("Public Files","*.pub"));
-		if(file != null) {
-			encoderKeyTextField.setText(file.getAbsolutePath());
+		
+		if (file != null) {
+			encoderKeyTextField.setText(getFilePath(file));
 		}
 	}
 	
+	
 	private File openFileChooser(String title, ExtensionFilter filter) {
 		
-		FileChooser chooser = new FileChooser(); 
-		chooser.setInitialDirectory(new File("."));
+		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Select "+title);
 		chooser.getExtensionFilters().add(filter);
+		
+		if (Multiplex.getInstance().getProjectFolder() == null) {
+			chooser.setInitialDirectory(new File("."));
+		}
+		else {
+			chooser.setInitialDirectory(Multiplex.getInstance().getProjectFolder());
+		}
 		return chooser.showOpenDialog(null);
+	}
+	
+	
+	private String getFilePath(File file) {
+		String path = file.getAbsolutePath();
+		
+		File projectFolder = Multiplex.getInstance().getProjectFolder();
+		if (projectFolder == null) return path;
+		
+		return path.replace(projectFolder.getAbsolutePath(), ".");
 	}
 }

@@ -63,7 +63,7 @@ public class DataVBoxController implements Initializable {
 		sourceChoiceBox.valueProperty().bindBidirectional(data.getSource());
 		
 		// File
-		new FileValidation(fileTextField, data.getOutput());
+		new FileValidation(fileTextField, data.getOutput(), true);
 
 		// Bitrate
 		bitrateChoiceBox.setItems(data.getBitrateList());

@@ -95,7 +95,7 @@ public class FileTitledPaneController implements Initializable {
 			formatChoiceBox.valueProperty().bindBidirectional(((ETIFile)out).getType());
 			
 			// File
-			new FileValidation(fileTextField, out.getDestination());
+			new FileValidation(fileTextField, out.getDestination(), false);
 		} 
 		else {
 			IQFile iqFile = (IQFile) ((ETIZeromq)out).getMod();
@@ -106,7 +106,7 @@ public class FileTitledPaneController implements Initializable {
 			formatChoiceBox.valueProperty().bindBidirectional(iqFile.getFormat());
 			
 			// File
-			new FileValidation(fileTextField, iqFile.getFile());
+			new FileValidation(fileTextField, iqFile.getFile(), false);
 		}
 	}
 	

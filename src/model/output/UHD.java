@@ -12,7 +12,7 @@ import javafx.collections.ObservableList;
 
 public abstract class UHD extends Modulator {
 	
-	protected StringProperty device, type;
+	protected StringProperty master_clock_rate, device, type;
 	protected DoubleProperty txgain; 
 	protected StringProperty frequency, refclk_source, pps_source, behaviour_refclk_lock_lost, max_gps_holdover_time;
 	
@@ -36,6 +36,8 @@ public abstract class UHD extends Modulator {
 		supportedDeviceList = 	FXCollections.observableArrayList("B100 Series","B200 Series","USRP1 Devices", "USRP2 Devices");
 		refclk_sourceList = 	FXCollections.observableArrayList("internal","external","MIMO","gpsdo","gpsdo-ettus");
 		pps_sourceList = 		FXCollections.observableArrayList("none","external","MIMO","gpsdo");
+		
+		master_clock_rate = 	new SimpleStringProperty("");				// USRP1 doesn't support master_clock_rate
 		
 		refclk_source =			new SimpleStringProperty(refclk_sourceList.get(0));
 		pps_source = 			new SimpleStringProperty(pps_sourceList.get(0));
@@ -83,6 +85,10 @@ public abstract class UHD extends Modulator {
 		return frequency;
 	}
 
+	public StringProperty getMaster_clock_rate() {
+		return master_clock_rate;
+	}
+	
 	public StringProperty getMax_gps_holdover_time() {
 		return max_gps_holdover_time;
 	}

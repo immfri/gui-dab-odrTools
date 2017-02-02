@@ -50,7 +50,39 @@ public class Component extends Element {
 	
 	public void setSubchannel(Subchannel sub) {
 		subchannel = sub;	
+		
+		// set fig-type 0x2 if SLS in audio selected
+		if (sub != null) {
+			if (!sub.getType().getValue().contentEquals("data") && !sub.getType().getValue().contains("packet")) {
+				
+				Audio audio = (Audio)sub.getInput();
+				
+				if (audio.getPad().getSlsEnabled().getValue()) {
+					figtype.setValue("0x2");
+				}
+				else {
+					figtype.setValue("");
+				}
+				
+				audio.getPad().getSlsEnabled().removeListener(c -> changeFigtype(audio.getPad().getSlsEnabled()));
+				audio.getPad().getSlsEnabled().addListener(c -> changeFigtype(audio.getPad().getSlsEnabled()));			
+			}
+		}
 	}
+	
+	
+	private void changeFigtype(BooleanProperty slsEnabled) {
+			
+		if (slsEnabled.getValue()) {
+			figtype.setValue("0x2");
+		} 
+		else {	
+			figtype.setValue("");
+			figtype.setValue("");
+		}
+	}
+
+
 	public Subchannel getSubchannel() {
 		return subchannel;	
 	}

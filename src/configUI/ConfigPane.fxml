@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -20,7 +21,7 @@
    <right>
       <GridPane style="-fx-background-color: #999999;" BorderPane.alignment="CENTER">
          <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints vgrow="SOMETIMES" />
@@ -28,35 +29,71 @@
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="newButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#newConfig" style="-fx-border-color: #999999; -fx-background-color: #999999;" text="New" GridPane.rowIndex="2">
+            <Button fx:id="runningButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#clickedRunningButton" style="-fx-border-color: #999999; -fx-background-color: #999999;" text="Start">
                <graphic>
                   <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/media-start-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="newButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#newConfig" style="-fx-border-color: #999999; -fx-background-color: #999999;" text="New" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../icons/documents-icon.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="saveButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#saveConfig" style="-fx-border-color: #999999; -fx-background-color: #999999;" text="Save" GridPane.rowIndex="3">
+            <Button fx:id="openButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#openConfig" style="-fx-border-color: #999999; -fx-background-color: #999999;" text="Open" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/save-icon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="openButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#openConfig" style="-fx-border-color: #999999; -fx-background-color: #999999;" text="Open" GridPane.rowIndex="4">
-               <graphic>
-                  <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="70.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../icons/open-icon.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
+            <Button fx:id="saveButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#saveConfig" style="-fx-border-color: #999999; -fx-background-color: #999999;" text="Save" GridPane.rowIndex="4">
+               <graphic>
+                  <ImageView fitHeight="70.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/save-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="saveAsButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#saveAsConfig" style="-fx-border-color: #999999; -fx-background-color: #999999;" text="Save as ..." GridPane.rowIndex="5">
+               <graphic>
+                  <ImageView fitHeight="70.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/save-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <VBox alignment="TOP_CENTER" GridPane.rowIndex="6">
+               <children>
+                  <Label text="Log-E-Mail:">
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="mailTextField" promptText="E-Mail enter" text="odr2go@gmail.com" />
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets top="30.0" />
+               </padding>
+            </VBox>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

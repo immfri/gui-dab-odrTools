@@ -53,11 +53,6 @@ public class UhdVBoxController implements Initializable {
 		
 		// Type
 		typeChoiceBox.setItems(uhd.getSupportedDeviceList());
-		typeChoiceBox.getSelectionModel().select(0);
-		typeChoiceBox.valueProperty().addListener(c -> changeType());
-		
-		// Master Clockrate
-		new NumberValidation(clockrateTextField, ((B100)uhd).getMaster_clock_rate(), 1000000, 100000000, 1, null);
 		
 		// Cic Equaliser
 		equaliserCheckBox.selectedProperty().addListener(c -> changeEqualiser());
@@ -81,8 +76,6 @@ public class UhdVBoxController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		setValues();
-		
 		vBox.getChildren().clear();
 		vBox.getChildren().addAll(typePane, changePanesButton);
 	}
@@ -90,11 +83,39 @@ public class UhdVBoxController implements Initializable {
 
 	public void setZmq(ETIZeromq zmq) {
 		this.zmq = zmq;
-		this.zmq.setMod(uhd);
+		this.uhd = (UHD)zmq.getMod();
+		
+		// Type
+		switch (uhd.getType().getValue()) {
+		case "b100":
+			typeChoiceBox.getSelectionModel().select(0);
+			break;
+			
+		case "b200":
+			typeChoiceBox.getSelectionModel().select(1);
+			break;
+			
+		case "usrp1":
+			typeChoiceBox.getSelectionModel().select(2);
+			subdeviceTextField.textProperty().bindBidirectional(((USRP1)uhd).getSubdevice());
+			break;
+			
+		case "usrp2":
+			typeChoiceBox.getSelectionModel().select(0);
+			break;
+		}
+		
+		// Type Listener
+		typeChoiceBox.valueProperty().addListener(c -> changeType());
+		
+		// Master Clockrate
+		new NumberValidation(clockrateTextField, uhd.getMaster_clock_rate(), 1000000, 100000000, 1, null);
 		
 		// set Source from zmq to Modulator-Input
 		String source = "tcp://localhost:" + this.zmq.getDestination().getValue();
 		uhd.getSource().setValue(source);
+		
+		setValues();
 	}
 	
 	

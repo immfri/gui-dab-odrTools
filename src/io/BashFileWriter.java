@@ -22,12 +22,32 @@ public class BashFileWriter extends FileWriter {
 		
 		// bash file init.
 		this.write("#!/bin/bash\n\n");
-		this.write("killall -15 screen\n");
-		this.write("sleep 2\n\n");
+		this.write("killall screen\n");						// Kill all screens subprocesses
+		this.write("killall -9 screen\n");						// Kill all screens subprocesses
+		this.write("find . -maxdepth 1 -type p -delete\n");				// Remove all FIFOs
 
+		//-------------- FIFOs --------------------------------
+		for (Subchannel subch: mux.getSubchannelList()) {
+			String type = subch.getType().getValue();
+
+			if (type.contains("audio") || type.contains("dabplus")) {
+				Audio audio = (Audio) subch.getInput();
+
+				if (audio.getPad().getDlsEnabled().getValue() || audio.getPad().getSlsEnabled().getValue()) {
+					
+					// write Line in Bash File
+					this.write("mkfifo pad-" + subch.getName().getValue() + ".fifo\n");
+				}
+			}
+		}
 		
-		// todo -> start JACK ?
-
+		for (Output out: mux.getOutputList()) {
+			if (out.getFormat().getValue().contentEquals("fifo")) {
+				this.write("mkfifo " + out.getDestination().getValue() + "\n");
+				this.write("screen -dm -S dablin dablin_gtk " +out.getDestination().getValue() +"\n");
+			}
+		}
+		this.write("sleep 2\n\n");
 		
 		//-------------- PAD-Encoders --------------------------------
 		for (Subchannel subch: mux.getSubchannelList()) {
@@ -37,11 +57,12 @@ public class BashFileWriter extends FileWriter {
 				Audio audio = (Audio) subch.getInput();
 
 				if (audio.getPad().getDlsEnabled().getValue() || audio.getPad().getSlsEnabled().getValue()) {
-					writePadEncoder(subch);
+					
+					// write Line in Bash File
+					writePadEncoder(subch, "pad-" + subch.getName().getValue() + ".fifo");
 				}
 			}
 		}
-		
 
 		//------------- Audio-Encoders -------------------------------
 		for (Subchannel subch: mux.getSubchannelList()) {
@@ -51,7 +72,7 @@ public class BashFileWriter extends FileWriter {
 				writeAudioEncoder(subch);
 			}
 		}
-		
+		this.write("\nsleep 2\n\n");
 		
 		//----------------- DabMux -------------------------------------
 		this.write("\nscreen -dm -S dabmux "+dabmux+ " -e dab.mux");
@@ -70,7 +91,7 @@ public class BashFileWriter extends FileWriter {
 					if (i++ == 0) this.write("\n");
 					
 					String fileName = out.getName().getValue();
-					this.write("\nsudo nice -n 5 screen -dm -S " +fileName.replace(" ", "") + " " +dabmod+ " -C " +fileName+ ".ini");
+					this.write("\nsudo nice -n 5 screen -dm -S " +fileName+ " " +dabmod+ " -C " +fileName+ ".ini");
 				}
 			}
 		}
@@ -110,12 +131,9 @@ public class BashFileWriter extends FileWriter {
 		this.write("-c " + audio.getChannel().getValue() + " ");
 		this.write("-r " + audio.getSamplerate().getValue() + " ");
 		
-		// Dab/Dab+
+		// Audiocodec (for DAB+ nothing)
 		if (audio.getType().getValue().contains("audio")) {
 			this.write("-a ");
-		}
-		else {
-			this.write("-A ");
 		}
 		
 		// Secret File
@@ -133,13 +151,13 @@ public class BashFileWriter extends FileWriter {
 		String ip = audio.getOutput().getValue().replace("*", "localhost");
 		this.write("-o " + ip + " ");
 		
-		// ------- End --------
+		// ------- End with Logfile --------
 		this.write("\n");
 	}
 	
 	
 
-	private void writePadEncoder(Subchannel subch) throws IOException {
+	private void writePadEncoder(Subchannel subch, String fileName) throws IOException {
 		
 		Pad pad = ((Audio)subch.getInput()).getPad();
 		
@@ -178,15 +196,13 @@ public class BashFileWriter extends FileWriter {
 		}
 		
 		// PAD
-		if (pad.getDlsEnabled().getValue() || pad.getSlsEnabled().getValue()) {
-			pad.getFilePad().setValue("pad-" + subch.getName().getValue() +".fifo");
+		pad.getFilePad().setValue(fileName);
 			
-			this.write("-p " + pad.getLength().getValue() +" ");
-			this.write("-o " + pad.getFilePad().getValue());
-		}
+		this.write("-p " + pad.getLength().getValue() +" ");
+		this.write("-o " + pad.getFilePad().getValue());
 		
 
-		// ------- End --------
+		// ------- End with LogFile --------
 		this.write("\n");
 	}
 
