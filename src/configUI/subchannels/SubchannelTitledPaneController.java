@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -30,7 +31,6 @@ public class SubchannelTitledPaneController implements Initializable {
 	
 	@FXML TitledPane titledPane;
 	@FXML VBox vBox;
-	@FXML ImageView titledPaneImageView;
 	@FXML Button changePanesButton;
 	@FXML GridPane subchannelPane, bitrateLevelPane, idPane;
 	
@@ -73,12 +73,21 @@ public class SubchannelTitledPaneController implements Initializable {
 		// TitledPane
 		titledPane.textProperty().bind(Bindings.concat("Subchannel: ",subch.getName()));
 		
+		// DAB-Icon
+		ImageView icon = new ImageView(new Image("icons/dab-plus-icon.png"));
+		if (subch.getType().getValue().contentEquals("audio")) {
+			icon = new ImageView(new Image("icons/dab-icon.png"));
+		}
+		titledPane.setGraphic(icon);
+		titledPane.setContentDisplay(ContentDisplay.LEFT);
+		
 		// Name
 		new NameValidation(nameTextField, subch.getName(), Multiplex.getInstance().getSubchannelList());
 
 		// Type
 		typeChoiceBox.setItems(subch.getTypeNameList());	
 		typeChoiceBox.getSelectionModel().select(subch.getTypeList().indexOf(subch.getType().getValue()));
+		typeChoiceBox.valueProperty().removeListener(c -> changeType());
 		typeChoiceBox.valueProperty().addListener(c -> changeType());
 
 
@@ -94,7 +103,6 @@ public class SubchannelTitledPaneController implements Initializable {
 
 		// ID
 		new SubchannelIdValidation(idTextField, subch.getId(), Multiplex.getInstance().getSubchannelList());
-		
 		
 		
 		audioFxmlLoader.<AudioVBoxController>getController().setAudio((Audio)subchannel.getInput());
@@ -127,16 +135,16 @@ public class SubchannelTitledPaneController implements Initializable {
 
 	private void changeType() {
 		vBox.getChildren().removeAll(audioVBox, dataVBox, zmqPane, zmqEncryptionPane, idPane);
-
-		subchannel.setInput(typeChoiceBox.getValue());		
-		String type = subchannel.getInput().getType().get();
 		
-		// Titled-Icon
-		if (type.contains("audio")) {
-			titledPaneImageView.setImage(new Image("icons/dab-icon.png"));
-		} else {
-			titledPaneImageView.setImage(new Image("icons/dab-plus-icon.png"));
+		subchannel.setInput(typeChoiceBox.getValue());		
+		String type = subchannel.getInput().getType().getValue();
+		
+		// Set Icon
+		ImageView icon = new ImageView(new Image("icons/dab-plus-icon.png"));
+		if (type.contentEquals("audio")) {
+			icon = new ImageView(new Image("icons/dab-icon.png"));
 		}
+		titledPane.setGraphic(icon);
 		
 		if (type.contains("audio") || type.contains("dabplus")) {					// Audio (MP2/AAC)
 			

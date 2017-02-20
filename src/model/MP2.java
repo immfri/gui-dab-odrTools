@@ -74,6 +74,6 @@ public class MP2 extends Audio {
 				{-1,  280,  -1, 208, 160},
 				{416,  -1, 280,  -1, 192}
 		};	
-		cu.set(cuList[brIndex][plIndex]);	
+		if (brIndex > -1 && plIndex > -1) cu.set(cuList[brIndex][plIndex]);	
 	}
 }

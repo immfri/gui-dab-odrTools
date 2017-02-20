@@ -81,6 +81,8 @@ public class Subchannel extends Element {
 		bitrate.unbind();
 		protection.unbind();
 		
+		String path = input.getPath().getValue();
+		
 		switch (typeName) {
 		
 			case "MP2-Audio":
@@ -103,6 +105,7 @@ public class Subchannel extends Element {
 				input = new Packet(getTypeList().get(4)); 
 				break;
 		}	
+		input.setPath(path);
 		setZmq();
 		
 		type.bind(input.getType());

@@ -148,7 +148,7 @@ public class ConfigPaneController implements Initializable {
 				saveButton.setDisable(true);
 
 				// Remove Projekt-Name
-				((Stage)openButton.getScene().getWindow()).setTitle("ODR-DAB-Suite-2017");
+				((Stage)openButton.getScene().getWindow()).setTitle("GUI4ODR");
 			}
 		}
 	}

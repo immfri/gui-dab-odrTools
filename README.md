@@ -1,4 +1,4 @@
-# gui-dab-odrTools
+# GUI4ODR
 
 Creating a graphical user interface (GUI) written by JavaFX that controls the configuration of the DAB [ODR-mmbTools](https://github.com/Opendigitalradio).
 
@@ -65,7 +65,7 @@ The GUI managed all Processes from ODR-Tools. If a process crashes or terminates
 * Set the executable Bit under Settings and run with double click
 * open Console and start GUI with command "java -jar /path/of/the/jar/file.jar" 
 
-## Status: v0.5 - finally 
+## Status: v0.6 -- fix bugs
 
 * Open a new Configuration 	**==> work**
 * Open a Configuration 		**==> work**

@@ -49,6 +49,11 @@ public abstract class Input {
 	public StringProperty getPath() {
 		return path;
 	}
+	
+	public void setPath(String path) {
+		this.path.setValue(path);
+		
+	}
 
 	public StringProperty getProtectionLevel() {
 		return protectionLevel;
@@ -82,6 +87,9 @@ public abstract class Input {
 	
 	public abstract void updateCU(); 
 	public abstract void updatePlList(boolean advancedView);
+
+
+	
 
 
 }

@@ -8,8 +8,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -153,11 +151,4 @@
          </children>
       </VBox>
    </content>
-   <graphic>
-      <ImageView fx:id="titledPaneImageView" fitHeight="15.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../icons/dab-icon.png" />
-         </image>
-      </ImageView>
-   </graphic>
 </TitledPane>

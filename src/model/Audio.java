@@ -59,6 +59,10 @@ public abstract class Audio extends Input {
 	public Pad getPad() {
 		return pad;
 	}
+	
+	public void setPad(Pad pad) {
+		this.pad = pad;
+	}
 
 
 	private int getFreePort() {

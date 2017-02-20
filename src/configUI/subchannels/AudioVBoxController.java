@@ -170,9 +170,6 @@ public class AudioVBoxController implements Initializable {
 		if (advancedView.get() && !source.contains("JACK")) {
 			vBox.getChildren().add(vBox.getChildren().indexOf(padPane), driftPane);
 		}
-
-		// Path Fields init.
-		audio.getPath().set("");	// if source change, then clear Input-Path
 		
 		switch (source) {
 		case "Webstream":

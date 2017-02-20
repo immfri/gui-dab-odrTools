@@ -14,7 +14,7 @@ public class Main extends Application {
 		
 		stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/configUI/ConfigPane.fxml")), 740, 700));
 		stage.getIcons().add(new Image("icons/odr-icon.png"));
-		stage.setTitle("ODR-DAB-Suite-2017");
+		stage.setTitle("GUI4ODR");
 		stage.show();
 	}
 	

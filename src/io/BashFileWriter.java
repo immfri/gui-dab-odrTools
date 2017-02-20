@@ -123,7 +123,7 @@ public class BashFileWriter extends FileWriter {
 		
 		// Drift
 		if (!audio.getSource().getValue().contains("JACK") && audio.getDriftCompensation().getValue() == true) {
-			this.write("-d ");
+			this.write("-D ");
 		}
 		
 		// Bitrate, Channel, Samplerate

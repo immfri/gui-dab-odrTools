@@ -82,7 +82,7 @@ public class LoaderForEncoders {
 			}
 			
 			// Drift
-			if (line.contains(" -d ")) audio.getDriftCompensation().setValue(true);
+			if (line.contains(" -D ")) audio.getDriftCompensation().setValue(true);
 				
 			// Channel
 			if (line.contains(" -c ")) {

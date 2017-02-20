@@ -80,7 +80,7 @@
             <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
          </columnConstraints>
       </GridPane>
-      <GridPane fx:id="padPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+      <GridPane fx:id="padPane" alignment="TOP_CENTER" hgap="10.0" style="-fx-background-color: #cccccc;" vgap="7.0">
          <children>
             <Label text="PAD:">
                <font>
@@ -97,7 +97,7 @@
             <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
          </columnConstraints>
       </GridPane>
-      <GridPane fx:id="advancedPadPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+      <GridPane fx:id="advancedPadPane" alignment="TOP_CENTER" hgap="10.0" style="-fx-background-color: #cccccc;" vgap="3.0">
          <children>
             <Label fx:id="lengthLabel" text="PAD-Length [bytes]" />
             <TextField fx:id="lengthTextField" GridPane.columnIndex="1">
@@ -115,7 +115,7 @@
             <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
          </columnConstraints>
       </GridPane>
-      <GridPane fx:id="dlsPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+      <GridPane fx:id="dlsPane" alignment="TOP_CENTER" hgap="10.0" style="-fx-background-color: #cccccc;" vgap="7.0">
          <children>
             <Label fx:id="dlsLabel" text="Dynamic Label" underline="true" />
             <CheckBox fx:id="dlsCheckBox" mnemonicParsing="false" onAction="#changeDlsConfigPane" GridPane.columnIndex="1">
@@ -133,7 +133,7 @@
             <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
          </columnConstraints>
       </GridPane>
-      <GridPane fx:id="dlsConfigPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+      <GridPane fx:id="dlsConfigPane" alignment="TOP_CENTER" hgap="10.0" style="-fx-background-color: #cccccc;" vgap="7.0">
          <children>
             <Label fx:id="dlsFileLabel" alignment="TOP_LEFT" contentDisplay="CENTER" text="DLS-Textfile" />
             <TextField fx:id="dlsFileTextField" maxHeight="26.0" promptText="no File" GridPane.columnIndex="1">
@@ -158,7 +158,7 @@
             <Insets left="20.0" />
          </padding>
       </GridPane>
-      <GridPane fx:id="advancedDlsConfigPane" alignment="TOP_CENTER" hgap="10.0">
+      <GridPane fx:id="advancedDlsConfigPane" alignment="TOP_CENTER" hgap="10.0" style="-fx-background-color: #cccccc;">
          <children>
             <Label fx:id="charsetLabel" text="Charset-Encoding" />
             <Label fx:id="rawDlsLabel" text="RAW-DLS" GridPane.rowIndex="1" />
@@ -193,7 +193,7 @@
             <Insets left="20.0" />
          </padding>
       </GridPane>
-      <GridPane fx:id="slsPane" alignment="TOP_CENTER" hgap="10.0" vgap="7.0">
+      <GridPane fx:id="slsPane" alignment="TOP_CENTER" hgap="10.0" style="-fx-background-color: #cccccc;" vgap="7.0">
          <children>
             <Label fx:id="slsLabel" text="MOT-Slideshow" underline="true" />
             <CheckBox fx:id="slsCheckBox" mnemonicParsing="false" onAction="#changeSlsConfigPane" GridPane.columnIndex="1">
@@ -211,7 +211,7 @@
             <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
          </columnConstraints>
       </GridPane>
-      <GridPane fx:id="slsConfigPane" alignment="TOP_CENTER" hgap="10.0">
+      <GridPane fx:id="slsConfigPane" alignment="TOP_CENTER" hgap="10.0" style="-fx-background-color: #cccccc;">
          <children>
             <Label fx:id="delayLabel" text="Delay [sec.]" />
             <Label fx:id="imageFolderLabel" text="Image-Folder" GridPane.rowIndex="1" />
@@ -243,7 +243,7 @@
             <Insets left="20.0" />
          </padding>
       </GridPane>
-      <GridPane fx:id="advancedSlsConfigPane" alignment="TOP_CENTER" hgap="10.0">
+      <GridPane fx:id="advancedSlsConfigPane" alignment="TOP_CENTER" hgap="10.0" style="-fx-background-color: #cccccc;">
          <children>
             <Label fx:id="rawSlidesLabel" text="RAW-Slides" />
             <Label fx:id="eraseSlidesLabel" text="Erase-Slides" GridPane.rowIndex="1" />
