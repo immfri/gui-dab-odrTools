@@ -54,7 +54,7 @@ public class Multiplex {
 		outputList =  		FXCollections.observableArrayList();
 		
 		// Subchannel Listener -> CU
-		subchannelList.addListener((ListChangeListener<Subchannel>) change -> updateCU());	
+		subchannelList.addListener((ListChangeListener<Subchannel>) change -> updateAllCU());	
 		
 		
 		mail = new SimpleStringProperty("");
@@ -132,7 +132,7 @@ public class Multiplex {
 		projectFolder = folder;
 	}
 	
-	public void updateCU() {
+	public void updateAllCU() {
 		int cu = 0;
 		for (Subchannel subCh: Multiplex.getInstance().getSubchannelList()) {
 			cu += subCh.getInput().getCu().get();

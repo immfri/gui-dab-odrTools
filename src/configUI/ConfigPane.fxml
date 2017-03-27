@@ -85,7 +85,7 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="mailTextField" promptText="E-Mail enter" text="odr2go@gmail.com" />
+                  <TextField fx:id="mailTextField" promptText="E-Mail enter" />
                </children>
                <GridPane.margin>
                   <Insets />

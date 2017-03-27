@@ -20,7 +20,7 @@ public class EDI extends Network {
 		fec = 					new SimpleStringProperty("2");
 		interleave = 			new SimpleStringProperty("0");
 		chunk_len = 			new SimpleStringProperty("207");
-		tagpacket_alignment = 	new SimpleStringProperty("8");
+		tagpacket_alignment = 	new SimpleStringProperty("0");
 		
 		enable_pft = 			new SimpleBooleanProperty(true);
 		dump = 					new SimpleBooleanProperty(false);

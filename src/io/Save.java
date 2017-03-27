@@ -26,7 +26,7 @@ public class Save {
 					
 					// Remove all DabMod-Config. Files and FIFOs
 					for (File file: saveFolder.listFiles()) {
-						if (file.getName().contains(".ini") || file.getName().contains(".fifo") || file.getName().contains(".log")) {
+						if (file.getName().contains(".ini") || file.getName().contains(".fifo")) {
 							file.delete();
 						}
 					}

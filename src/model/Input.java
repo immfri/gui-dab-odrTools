@@ -30,7 +30,8 @@ public abstract class Input {
 		protectionLevelList = 	FXCollections.observableArrayList();
 		sourceList = 			FXCollections.observableArrayList();
 		
-		cu.addListener(change -> Multiplex.getInstance().updateCU());			// update CU on ProgressPane
+		// update CU on ProgressPane
+		cu.addListener(change -> Multiplex.getInstance().updateAllCU());			
 	}
 
 

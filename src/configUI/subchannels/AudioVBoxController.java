@@ -133,7 +133,7 @@ public class AudioVBoxController implements Initializable {
 		// SLS
 		slsCheckBox.selectedProperty().bindBidirectional(audio.getPad().getSlsEnabled());
 		new FolderValidation(imageFolderTextField, audio.getPad().getDirSlides());
-		new NumberValidation(delayTextField, audio.getPad().getDelay(), 0, 320, 10, null);
+		new NumberValidation(delayTextField, audio.getPad().getDelay(), 0, 320, 1, null);
 		rawSlidesCheckBox.selectedProperty().bindBidirectional(audio.getPad().getRawSlides());	
 		eraseSlidesCheckBox.selectedProperty().bindBidirectional(audio.getPad().getEraseSlides());
 		

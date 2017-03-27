@@ -15,10 +15,8 @@ public class ETIZeromq extends Output {
 		destination.set(getFreePort());
 	}
 
-
 	
 	// if Selected Output need dabmod configuration file
-	
 	public Modulator getMod() {
 		return mod;
 	}

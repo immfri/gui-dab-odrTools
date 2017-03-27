@@ -169,7 +169,7 @@ public class SubchannelTitledPaneController implements Initializable {
 			vBox.getChildren().add(vBox.getChildren().indexOf(changePanesButton), idPane);	
 		}
 		
-		Multiplex.getInstance().updateCU();											// update CU on ProgessPane
+		Multiplex.getInstance().updateAllCU();											// update CU on ProgessPane
 	}
 	
 	@FXML

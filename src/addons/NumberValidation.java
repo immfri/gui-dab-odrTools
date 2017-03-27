@@ -20,8 +20,6 @@ public class NumberValidation extends Validation {
 	}
 
 
-
-
 	private TextFormatter<String> getNumberFormatter(int min, int max, int step, Label label) {
 		return new TextFormatter<> (c -> {
 			
