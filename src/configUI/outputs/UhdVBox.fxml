@@ -88,24 +88,38 @@
             <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
          </columnConstraints>
       </GridPane>
+      <GridPane fx:id="channelPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
+         <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="170.0" />
+            <ColumnConstraints maxWidth="1.7976931348623157E308" prefWidth="250.0" />
+            <ColumnConstraints maxWidth="-Infinity" prefWidth="70.0" />
+         </columnConstraints>
+         <children>
+            <Label fx:id="channelLabel" text="DAB-Channel" />
+            <ChoiceBox fx:id="channelChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
       <GridPane fx:id="configPane" alignment="TOP_CENTER" hgap="10.0" vgap="3.0">
          <children>
-            <Label fx:id="txGainLabel" text="TX-Gain" />
-            <Label fx:id="frequenzLabel" text="Frequenz [kHz]" GridPane.rowIndex="1" />
-            <Label fx:id="channelLabel" text="DAB-Channel" GridPane.rowIndex="2" />
-            <Label fx:id="refClockLabel" text="Ref.Clock-Source" GridPane.rowIndex="3" />
-            <Slider fx:id="txGainSlider" blockIncrement="1.0" majorTickUnit="10.0" max="31.0" minorTickCount="9" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="20.0" GridPane.columnIndex="1" />
-            <TextField fx:id="frequenzTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ChoiceBox fx:id="channelChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ChoiceBox fx:id="refClockChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label fx:id="txGainLabel" text="TX-Gain" GridPane.rowIndex="1" />
+            <Label fx:id="refClockLabel" text="Ref.Clock-Source" GridPane.rowIndex="2" />
+            <Slider fx:id="txGainSlider" blockIncrement="1.0" majorTickUnit="10.0" max="31.0" minorTickCount="9" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <padding>
+                  <Insets top="5.0" />
+               </padding></Slider>
+            <ChoiceBox fx:id="refClockChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <tooltip>
                   <Tooltip text="The reference clock to use" />
                </tooltip></ChoiceBox>
+            <Label fx:id="frequenzLabel" text="Frequenz [kHz]" />
+            <TextField fx:id="frequenzTextField" GridPane.columnIndex="1" />
          </children>
          <rowConstraints>
+            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" valignment="CENTER" />
             <RowConstraints maxHeight="-Infinity" minHeight="25.0" prefHeight="40.0" />
-            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
-            <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="40.0" valignment="TOP" />
             <RowConstraints maxHeight="-Infinity" minHeight="20.0" prefHeight="30.0" />
          </rowConstraints>
          <columnConstraints>

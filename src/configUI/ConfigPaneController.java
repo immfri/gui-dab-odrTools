@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tab;
@@ -34,7 +35,8 @@ public class ConfigPaneController implements Initializable {
 	@FXML Tab ensembleTab, servicesTab, componentsTab, subchannelsTab, outputsTab;	
 	@FXML Button runningButton, newButton, openButton, saveButton, saveAsButton;
 	@FXML TextField mailTextField;
-	@FXML Label cuLabel;
+	@FXML CheckBox dablinCheckBox;
+	@FXML Label cuLabel, dablinLabel;
 	@FXML ProgressBar cuProgressBar;
 	
 	private Multiplex mux;
@@ -75,6 +77,9 @@ public class ConfigPaneController implements Initializable {
 		
 		// Mail
 		mailTextField.textProperty().bindBidirectional(mux.getEMail());
+		
+		// DABlin
+		dablinCheckBox.selectedProperty().bindBidirectional(mux.getDablinActivate());
 	}
 	
 	@FXML
@@ -231,6 +236,9 @@ public class ConfigPaneController implements Initializable {
 			
 			// Set up save-Button
 			saveButton.setDisable(false);
+			
+			// Set Project-Name
+			((Stage)saveButton.getScene().getWindow()).setTitle("Project from "+mux.getProjectFolder().getAbsolutePath());
 		}
 	}
 	

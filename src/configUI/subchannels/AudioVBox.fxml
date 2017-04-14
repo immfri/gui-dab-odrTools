@@ -24,9 +24,6 @@
                <tooltip>
                   <Tooltip text="Enter path to the Soure" />
                </tooltip>
-               <padding>
-                  <Insets left="7.0" right="25.0" />
-               </padding>
             </TextField>
             <Label fx:id="levelLabel" text="Protection Level" GridPane.rowIndex="3" />
             <ChoiceBox fx:id="levelChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3" />

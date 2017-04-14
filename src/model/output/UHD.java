@@ -31,7 +31,7 @@ public abstract class UHD extends Modulator {
 		maxTxGain = 			max;
 		
 		device = 				new SimpleStringProperty(" ");
-		frequency =				new SimpleStringProperty("223936");			// Channel: 12A
+		frequency =				new SimpleStringProperty("223936000");			// Channel: 12A
 		
 		supportedDeviceList = 	FXCollections.observableArrayList("B100 Series","B200 Series","USRP1 Devices", "USRP2 Devices");
 		refclk_sourceList = 	FXCollections.observableArrayList("internal","external","MIMO","gpsdo","gpsdo-ettus");

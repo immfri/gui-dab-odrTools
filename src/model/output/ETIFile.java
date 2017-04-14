@@ -15,7 +15,7 @@ public class ETIFile extends Output {
 	public ETIFile(String name) {
 		super(name, "fifo", "/dev/stdout");
 		
-		type = 		new SimpleStringProperty("raw");
+		type = new SimpleStringProperty("raw");
 		typeList = FXCollections.observableArrayList("raw","streamed","framed");
 	}
 
@@ -24,7 +24,8 @@ public class ETIFile extends Output {
 	public StringProperty getType() {
 		return type;
 	}
-
+	
+	
 
 	public ObservableList<String> getTypeList() {
 		return typeList;

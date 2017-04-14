@@ -22,7 +22,7 @@ public class ModFileLoader {
 		if (modFile.exists()) {
 			setModulator(modFile);
 			
-			// configure Mudulator
+			// configure Modulator
 			if (mod != null) {
 				
 				loadSection("remotecontrol", modFile);
@@ -64,7 +64,7 @@ public class ModFileLoader {
 			}
 		}
 		else {
-			// Modfile not exist
+			// Mod-file not exist
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error: DabMod-File");
 			alert.setHeaderText("File <"+modFile.getAbsolutePath()+"> not exist!");
@@ -120,7 +120,7 @@ public class ModFileLoader {
 				case "b100": 	return new B100();
 				case "b200": 	return new B200();
 				case "usrp1": 	return new USRP1();
-				case "ursp2":	return new USRP2();
+				case "usrp2":	return new USRP2();
 				default:		return null;
 				}
 			}
@@ -206,7 +206,7 @@ public class ModFileLoader {
 					case "master_clock_rate": 	((UHD)mod).getMaster_clock_rate().setValue(""+getInt(value));					break;
 					// type -> set up before
 					case "txgain":				((UHD)mod).getTxgain().setValue(getDouble(value));								break;
-					case "frequency":			((UHD)mod).getFrequency().setValue(""+getInt(value));							break;
+					case "frequency":			((UHD)mod).getFrequency().setValue(""+getLong(value));							break;
 					// channel -> work only with frequency
 					case "refclk_source":		if (((UHD)mod).getRefclk_sourceList().contains(value)) {
 													((UHD)mod).getRefclk_source().setValue(value);
@@ -261,6 +261,12 @@ public class ModFileLoader {
 	
 	private int getInt(String value) {
 		if (value.matches("\\d*")) return Integer.parseInt(value);
+	
+		return 0;
+	}
+	
+	private long getLong(String value) {
+		if (value.matches("\\d*")) return Long.parseLong(value);
 	
 		return 0;
 	}

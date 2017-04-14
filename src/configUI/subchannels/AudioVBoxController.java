@@ -98,7 +98,8 @@ public class AudioVBoxController implements Initializable {
 		sourceChoiceBox.valueProperty().bindBidirectional(audio.getSource());
 		
 		// Path
-		new UrlValidation(pathTextField, audio.getPath());
+		pathTextField.textProperty().unbindBidirectional(audio.getPath());
+		pathTextField.textProperty().bindBidirectional(audio.getPath());
 		
 		// Bitrate
 		bitrateChoiceBox.setItems(audio.getBitrateList());
@@ -175,21 +176,21 @@ public class AudioVBoxController implements Initializable {
 		case "Webstream":
 			pathLabel.setText("URL");
 			pathTextField.setPromptText("no URL");
-			new UrlValidation(pathTextField, audio.getPath());
 			break;
 
 		case "ALSA":
 			pathLabel.setText("Interface");
 			pathTextField.setPromptText("no Interface");
 			pathTextField.setText("default");
-			new NameValidation(pathTextField, audio.getPath(), null);
 			break;
 
 		case "JACK":
 			pathLabel.setText("Client");
 			pathTextField.setPromptText("no Client");
-			new NameValidation(pathTextField, audio.getPath(), null);
 		}
+		
+		pathTextField.textProperty().unbindBidirectional(audio.getPath());
+		pathTextField.textProperty().bindBidirectional(audio.getPath());
 	}
 	
 	

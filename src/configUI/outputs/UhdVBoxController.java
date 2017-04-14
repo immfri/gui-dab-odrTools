@@ -31,7 +31,7 @@ public class UhdVBoxController implements Initializable {
 	@FXML TextField subdeviceTextField, clockrateTextField, frequenzTextField, holdoverTimeTextField;
 	@FXML CheckBox equaliserCheckBox;
 	@FXML Slider txGainSlider;
-	@FXML GridPane typePane, subdevicePane, clockRatePane, equaliserPane, configPane, behavPane, ppsPane, gpsPane;
+	@FXML GridPane typePane, subdevicePane, clockRatePane, equaliserPane, channelPane, configPane, behavPane, ppsPane, gpsPane;
 	
 	// Delaymanagement
 	@FXML Label synchLabel, muteLabel, offsetLabel;
@@ -77,7 +77,7 @@ public class UhdVBoxController implements Initializable {
 		}
 		
 		vBox.getChildren().clear();
-		vBox.getChildren().addAll(typePane, changePanesButton);
+		vBox.getChildren().addAll(typePane, channelPane, changePanesButton);
 	}
 
 
@@ -101,7 +101,7 @@ public class UhdVBoxController implements Initializable {
 			break;
 			
 		case "usrp2":
-			typeChoiceBox.getSelectionModel().select(0);
+			typeChoiceBox.getSelectionModel().select(3);
 			break;
 		}
 		
@@ -146,7 +146,6 @@ public class UhdVBoxController implements Initializable {
 		} 
 		else if (typeChoiceBox.getValue().contentEquals(uhd.getSupportedDeviceList().get(3))) {	// USRP2-devices
 			uhd = new USRP2();		
-			new NumberValidation(clockrateTextField, ((USRP2)uhd).getMaster_clock_rate(), 1000000, 100000000, 1, null);
 		} 
 		else {																					// USRP1-devices
 			uhd = new USRP1();
@@ -177,7 +176,7 @@ public class UhdVBoxController implements Initializable {
 		
 		if (advancedView) {
 			changePanesButton.setText("Show basic parameters");
-			vBox.getChildren().addAll(typePane, configPane, ppsPane, delayPane, modulatorVBox, changePanesButton);
+			vBox.getChildren().addAll(typePane, channelPane, configPane, ppsPane, delayPane, modulatorVBox, changePanesButton);
 			
 			setSubdevicePane();
 			setClockRatePane();
@@ -187,7 +186,7 @@ public class UhdVBoxController implements Initializable {
 		} 
 		else {
 			changePanesButton.setText("Show advanced parameters");
-			vBox.getChildren().addAll(typePane, changePanesButton);
+			vBox.getChildren().addAll(typePane, channelPane, changePanesButton);
 		}		
 	}
 	
@@ -201,7 +200,9 @@ public class UhdVBoxController implements Initializable {
 		
 		// Binding
 		txGainSlider.valueProperty().bindBidirectional(uhd.getTxgain());
-		new NumberValidation(frequenzTextField, uhd.getFrequency(), 1, 6000000, 1, null);
+//		new NumberValidation(frequenzTextField, uhd.getFrequency(), 1, 6000000, 1, null);
+		frequenzTextField.textProperty().unbindBidirectional(uhd.getFrequency());
+		frequenzTextField.textProperty().bindBidirectional(uhd.getFrequency());
 		frequenzTextField.textProperty().addListener(c -> changeFrequenz());
 		changeFrequenz();
 		refClockChoiceBox.valueProperty().bindBidirectional(uhd.getRefclk_source());
@@ -234,8 +235,8 @@ public class UhdVBoxController implements Initializable {
 	private void setClockRatePane() {
 		vBox.getChildren().remove(clockRatePane);
 		
-		if (!uhd.getType().getValue().contentEquals("usrp1")) {					// Master Clock Rate, only not for USRP1
-			vBox.getChildren().add(vBox.getChildren().indexOf(configPane), clockRatePane);
+		if (!uhd.getType().getValue().contains("usrp")) {					// Master Clock Rate not for USRP1/2
+			vBox.getChildren().add(vBox.getChildren().indexOf(delayPane), clockRatePane);
 		} 
 	}
 	
@@ -244,7 +245,7 @@ public class UhdVBoxController implements Initializable {
 		vBox.getChildren().remove(equaliserPane);
 		
 		if (uhd.getType().getValue().contains("usrp")) {
-			vBox.getChildren().add(vBox.getChildren().indexOf(configPane), equaliserPane);
+			vBox.getChildren().add(vBox.getChildren().indexOf(channelPane), equaliserPane);
 		}
 	}
 	
@@ -296,12 +297,12 @@ public class UhdVBoxController implements Initializable {
 	}
 	
 	private void changeFrequenz() {
-		int[] freqArray = getDabFrequenz();
+		long[] freqArray = getDabFrequenz();
 		int index;
 		
 		// Search Freq. in Array
 		for (index=0; index<61; index++) {
-			if (Integer.parseInt(frequenzTextField.getText()) == freqArray[index]) break;
+			if (Long.parseLong(frequenzTextField.getText()) == freqArray[index]) break;
 		}
 		
 		channelChoiceBox.getSelectionModel().select(index);;
@@ -334,36 +335,37 @@ public class UhdVBoxController implements Initializable {
 		return FXCollections.observableArrayList(channels);
 	}
 	
-	private int[] getDabFrequenz() {
-		int[] freqArray = new int[61];
-		int freq, x = 0;
+	private long[] getDabFrequenz() {
+		long[] freqArray = new long[61];
+		long freq;
+		int x = 0;
 		
 		// Generate Frequenz-Array
-		for (freq = 174928; freq < 216930; freq += 14000) {		// 5A, 7A, 9A, 11A
+		for (freq = 174928000; freq < 216930000; freq += 14000000) {		// 5A, 7A, 9A, 11A
 			freqArray[x] = freq;
 			x += 8;
 		}
 		x = 4;
-		for (freq = 181936; freq < 223940; freq += 14000) {		// 6A, 8A, 10A, 12A
+		for (freq = 181936000; freq < 223940000; freq += 14000000) {		// 6A, 8A, 10A, 12A
 			freqArray[x] = freq;
 			x += 8;
 		}
 		for (x=1; x<32; x+=4) {									// x = 5...12
 			freq = freqArray[x-1];
 			for (int y=0; y<3; y++) {							// xB, xC, xD
-				freq += 1712;
+				freq += 1712000;
 				freqArray[x+y] = freq;
 			}
 		}
 		x--;
-		freqArray[x++] = 230748;								// 13A
-		freqArray[x++] = 232496;
-		freqArray[x++] = 234208;
-		freqArray[x++] = 235776;
-		freqArray[x++] = 237448;
-		freqArray[x++] = 239200;								// 13F
+		freqArray[x++] = 230748000;								// 13A
+		freqArray[x++] = 232496000;
+		freqArray[x++] = 234208000;
+		freqArray[x++] = 235776000;
+		freqArray[x++] = 237448000;
+		freqArray[x++] = 239200000;								// 13F
 		
-		for (freq = 1452960; freq <= 1490624; freq += 1712) {	// LA - LW
+		for (freq = 1452960000; freq <= 1490624000; freq += 1712000) {	// LA - LW
 			freqArray[x++] = freq;
 		}
 		return freqArray;

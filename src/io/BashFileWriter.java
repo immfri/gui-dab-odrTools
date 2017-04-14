@@ -41,13 +41,17 @@ public class BashFileWriter extends FileWriter {
 			}
 		}
 		
-		for (Output out: mux.getOutputList()) {
-			if (out.getFormat().getValue().contentEquals("fifo")) {
-				this.write("mkfifo " + out.getDestination().getValue() + "\n");
-				this.write("screen -dm -S dablin dablin_gtk " +out.getDestination().getValue() +"\n");
+		// DABlin
+		if (mux.getDablinActivate().getValue()) {
+			for (Output out: mux.getOutputList()) {
+				if (out.getFormat().getValue().contentEquals("fifo")) {
+					this.write("mkfifo " + out.getDestination().getValue() + "\n");
+					this.write("screen -dm -S dablin dablin_gtk " +out.getDestination().getValue() +"\n");
+					break;
+				}
 			}
+			this.write("sleep 2\n\n");
 		}
-		this.write("sleep 2\n\n");
 		
 		//-------------- PAD-Encoders --------------------------------
 		for (Subchannel subch: mux.getSubchannelList()) {

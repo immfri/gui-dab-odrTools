@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import model.Multiplex;
 
 
 public class Load {
@@ -44,6 +45,13 @@ public class Load {
 		String line;
 		do {
 			line = reader.readLine();
+			
+			// DABlin
+			if (line.contains("dablin_gtk ")) {
+				Multiplex.getInstance().getDablinActivate().setValue(true);
+			}
+			
+			// DabMux File
 			if (line.contains(dabmux)) {
 				String fileName = line.substring(line.indexOf("-e") + 3);
 				

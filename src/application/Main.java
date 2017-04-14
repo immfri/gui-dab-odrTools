@@ -12,7 +12,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
 		
-		stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/configUI/ConfigPane.fxml")), 740, 700));
+		stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/configUI/ConfigPane.fxml")), 780, 740));
 		stage.getIcons().add(new Image("icons/odr-icon.png"));
 		stage.setTitle("GUI4ODR");
 		stage.show();

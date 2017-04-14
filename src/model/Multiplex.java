@@ -33,7 +33,7 @@ public class Multiplex {
 	
 	private File projectFolder = null;
 	private StringProperty mail;
-	
+	private BooleanProperty dablinActivate;
 	
 	private Multiplex() {		
 		
@@ -58,6 +58,7 @@ public class Multiplex {
 		
 		
 		mail = new SimpleStringProperty("");
+		dablinActivate = new SimpleBooleanProperty(false);
 	}
 	
 	public static synchronized Multiplex getInstance() {
@@ -161,5 +162,9 @@ public class Multiplex {
 
 	public StringProperty getEMail() {
 		return mail;
+	}
+
+	public BooleanProperty getDablinActivate() {
+		return dablinActivate;
 	}	
 }
